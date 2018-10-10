@@ -1,16 +1,11 @@
-#Random generator ipv6 addresses within your ipv6 network prefix.
-#!/usr/local/bin/bash
-
-# Copyright
-# Vladislav V. Prodan
-# universite@ukr.net
-# 2011
-
+{% raw %}
+#!/bin/bash
 
 array=( 1 2 3 4 5 6 7 8 9 0 a b c d e f )
+{% endraw %}
 MAXCOUNT={{ count }}
 networks=({{ nipv6 }})
-
+{% raw %}
 rnd_ip_block ()
 {
     o=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
@@ -31,6 +26,6 @@ for net in ${networks[*]}
         let "count += 1"
     done
 done
-
+{% endraw %}
 
 
