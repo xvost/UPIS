@@ -1,4 +1,3 @@
-# Docker installer to CentOs 7
 ## Requirements
 
 Ansible 2.3.0
