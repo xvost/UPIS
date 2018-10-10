@@ -1,0 +1,26 @@
+ - name: Send random.sh, ipv6/64
+   template:
+      src: random_64.j2
+      dest: /root/random.sh
+      mode: 0755
+   when: net_type == 64
+
+ - name: Send random.sh, ipv6/48
+   template:
+      src: random_48.j2
+      dest: /root/random.sh
+      mode: 0755
+   when: net_type == 48
+
+ - name: Send rc.local
+   template:
+      src: rc.local_64_48.j2
+      dest: /etc/rc.local
+      mode: 0755
+
+ - name: Create ndppd conf
+   template:
+      src: ndppd.j2
+      dest: /root/ndppd/ndppd.conf
+      mode: 0755
+

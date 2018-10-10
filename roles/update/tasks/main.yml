@@ -1,0 +1,25 @@
+ - name: Add jessie-backports repository
+   apt_repository:
+     repo: deb http://ftp.debian.org/debian jessie-backports main
+     state: present
+
+ - apt:
+    upgrade: yes
+    update_cache: yes
+
+ - name: Install Kernel 4.
+   apt:
+     name: linux-image-amd64
+     state: latest
+     force: yes
+     force_apt_get: yes
+     default_release: jessie-backports
+
+ - name: Install mc
+   apt:
+     name: mc
+
+ - name: Install bc
+   apt:
+     name: bc
+

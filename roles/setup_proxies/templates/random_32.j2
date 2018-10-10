@@ -1,0 +1,36 @@
+#Random generator ipv6 addresses within your ipv6 network prefix.
+#!/usr/local/bin/bash
+
+# Copyright
+# Vladislav V. Prodan
+# universite@ukr.net
+# 2011
+
+
+array=( 1 2 3 4 5 6 7 8 9 0 a b c d e f )
+MAXCOUNT={{ count }}
+networks=({{ nipv6 }})
+
+rnd_ip_block ()
+{
+    o=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    a=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    b=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    c=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    d=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    e=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    echo $net:$o:$a:$b:$c:$d:$e
+}
+
+for net in ${networks[*]}
+    do
+    count=1
+    while [ "$count" -le $MAXCOUNT ]
+        do
+        rnd_ip_block
+        let "count += 1"
+    done
+done
+
+
+

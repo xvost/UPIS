@@ -1,0 +1,29 @@
+ - name: Send random.sh, simple, ipv6/36 
+   template:
+      src: random_36.j2
+      dest: /root/random.sh
+      mode: 0755
+   when: net_type == 36 and rotate_type == "simple"
+
+ - name: Send random.sh, castom, ipv6/36
+   template:
+      src: random_36_castom.j2
+      dest: /root/random.sh
+      mode: 0755
+   when: net_type == 36 and rotate_type == "castom"
+
+ - name: Send random.sh, ipv6/32
+   template:
+      src: random_32.j2
+      dest: /root/random.sh
+      mode: 0755
+   when: net_type == 32
+
+ - name: Send rc.local, ipv6/3*
+   template:
+      src: rc.local_36_32.j2
+      dest: /etc/rc.local
+      mode: 0755
+
+
+

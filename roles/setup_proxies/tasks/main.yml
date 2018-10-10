@@ -1,0 +1,54 @@
+ - name: Add sysctl parameters
+   shell: echo "net.ipv6.conf.eth0.proxy_ndp=1 \nnet.ipv6.conf.all.proxy_ndp=1 \nnet.ipv6.conf.default.forwarding=1 \nnet.ipv6.conf.all.forwarding=1 \nnet.ipv6.ip_nonlocal_bind = 1" >> /etc/sysctl.conf
+
+ - file:
+     path: '/root/{{ item }}'
+     state: directory
+     mode: 0755
+   with_items:
+     - 'ndppd'
+     - '3proxy'
+
+ - name: Copy binary 3proxy
+   copy:
+     src: bin/3proxy
+     dest: /root/3proxy/3proxy
+     mode: 0744
+
+ - name: Copy binary ndppd
+   copy:
+     src: bin/ndppd
+     dest: /root/ndppd/ndppd
+     mode: 0744
+
+ - name: Send 3proxy.sh
+   template:
+      src: 3proxy.j2
+      dest: /root/3proxy.sh
+      mode: 0755
+
+ - name: Start install proxy 36/32
+   include: tasks/36_32.yml
+   when: net_type == 36 or net_type == 32
+
+ - name: Start install proxy 64/48
+   include: tasks/64_48.yml
+   when: net_type == 64 or net_type == 48
+
+ - name: Create ip.list
+   shell: /root/random.sh > /root/ip.list
+   args:
+     executable: /bin/bash
+
+ - name: Create 3proxy.cfg
+   shell: /root/3proxy.sh > /root/3proxy/3proxy.cfg
+   args:
+     executable: /bin/bash
+
+ - name: Copy rotate.sh
+   copy:
+     src: rotate.sh
+     dest: /root/rotate.sh
+     mode: 0744
+
+

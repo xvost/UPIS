@@ -1,0 +1,44 @@
+{% raw %}
+#!/bin/bash
+{% endraw %}
+array=( 1 2 3 4 5 6 7 8 9 0 a b c d e f )
+MAXCOUNT={{ count }}
+count=1
+network={{ nipv6 }}
+len=4
+{% raw %}
+rnd_ip_block ()
+{
+    b=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    c=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    d=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    e=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    f=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    echo $sub_network:$b:$c:$d:$e:$f
+}
+
+g_block=`cat /root/ip2.list | tr '[:lower:]' '[:upper:]'`
+decimal_block=$(echo "obase=10; ibase=16; $g_block" | bc)
+while [ "$count" -le $MAXCOUNT ]   
+do
+        decimal_block=$[$decimal_block +1]
+        if [ "$decimal_block" -eq "4096" ]
+        then
+            decimal_block=0
+        fi
+        a=`echo 'ibase=10;obase=16;'$decimal_block | bc | tr '[:upper:]' '[:lower:]'`
+        if [ ${#a} -lt $len ]
+        then
+            t=$[$len-${#a}]
+            i=1
+            while [ $i -lt $t ]; do
+                a="0"$a
+                let "i += 1"
+        done
+        fi
+        sub_network=$network$a
+        rnd_ip_block
+        let "count += 1" 
+done
+echo $a > /root/ip2.list
+{% endraw %}
