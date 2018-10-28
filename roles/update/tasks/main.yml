@@ -3,10 +3,6 @@
      repo: deb http://ftp.debian.org/debian jessie-backports main
      state: present
 
- - apt:
-    upgrade: yes
-    update_cache: yes
-
  - name: Install Kernel 4.
    apt:
      name: linux-image-amd64
@@ -14,6 +10,8 @@
      force: yes
      force_apt_get: yes
      default_release: jessie-backports
+     update_cache: yes
+     autoclean: yes
 
  - name: Install mc
    apt:
