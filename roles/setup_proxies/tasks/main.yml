@@ -1,5 +1,27 @@
- - name: Add sysctl parameters
-   shell: echo "net.ipv6.conf.eth0.proxy_ndp=1 \nnet.ipv6.conf.all.proxy_ndp=1 \nnet.ipv6.conf.default.forwarding=1 \nnet.ipv6.conf.all.forwarding=1 \nnet.ipv6.ip_nonlocal_bind = 1" >> /etc/sysctl.conf
+- sysctl:
+    name: net.ipv6.conf.eth0.proxy_ndp
+    value: 1
+    sysctl_set: yes
+
+- sysctl:
+    name: net.ipv6.conf.all.proxy_ndp
+    value: 1
+    sysctl_set: yes
+
+- sysctl:
+    name: net.ipv6.conf.default.forwarding
+    value: 1
+    sysctl_set: yes
+
+- sysctl:
+    name: net.ipv6.conf.all.forwarding
+    value: 1
+    sysctl_set: yes
+
+- sysctl:
+    name: net.ipv6.ip_nonlocal_bind
+    value: 1
+    sysctl_set: yes
 
  - file:
      path: '/root/{{ item }}'
@@ -50,5 +72,8 @@
      src: rotate.sh
      dest: /root/rotate.sh
      mode: 0744
+
+ - name: Reboot to apply new kernel
+   reboot:
 
 

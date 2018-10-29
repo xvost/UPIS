@@ -1,5 +1,6 @@
 ---
-- hosts: test
+- hosts: proxy
   roles:
     - update
     - setup_proxies
+#  when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "8")
