@@ -32,6 +32,6 @@ env.write(f'''
 
 env.close()
 
-command = "ansible-playbook ./Ansible_proxies/startup_point.yml -i ./Ansible_proxies/inventory/env"
+command = "ansible-playbook ./startup_point.yml -i ./inventory/env"
 
 subprocess.call(command.split(' '))
