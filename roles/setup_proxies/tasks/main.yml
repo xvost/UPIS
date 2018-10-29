@@ -78,6 +78,7 @@
      name: "rotate proxies"
      minute: "*/5"
      job: "/root/rotate.sh"
+   when: rotate == "yes"
    tags:
    - cron
 
