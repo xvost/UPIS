@@ -15,9 +15,9 @@
 
  - name: Reboot to apply new kernel
    reboot:
-     reboot_timeout: 30
+     reboot_timeout: 120
 
- - name: Install packages 
+ - name: Install packages
    apt:
      name: "{{ packages }}"
    vars:
@@ -27,7 +27,7 @@
      - bind9
      - nscd
 
- - name: Change bind's listening ips 
+ - name: Change listening ips
    shell: sed -i 's/listen-on-v6 { any; };/listen-on { 127.0.0.1; };/g' /etc/bind/named.conf.options
    args:
      executable: /bin/bash

@@ -73,5 +73,13 @@
      dest: /root/rotate.sh
      mode: 0744
 
+ - name: Add rotate cron
+   cron:
+     name: "rotate proxies"
+     minute: "*/5"
+     job: "/root/rotate.sh"
+   tags:
+   - cron
+
  - name: Reboot to apply all changes and start proxy
    reboot:
