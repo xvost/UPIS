@@ -13,6 +13,10 @@
      update_cache: yes
      autoclean: yes
 
+ - name: Reboot to apply new kernel
+   reboot:
+     reboot_timeout: 30
+
  - name: Install packages 
    apt:
      name: "{{ packages }}"

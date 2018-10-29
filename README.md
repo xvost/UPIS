@@ -2,10 +2,8 @@
 
 ## Requirements
 
-Ansible 2.3.0+
+Ansible 2.7.0+
 
-Python 2.7.12+
-or
 Python 3.5.2+
 
 ## Usage

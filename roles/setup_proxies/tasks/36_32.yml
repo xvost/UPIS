@@ -19,11 +19,20 @@
       mode: 0755
    when: net_type == 32
 
- - name: Send rc.local, ipv6/3*
+ - name: Send rc.local, ipv6/36
    template:
-      src: rc.local_36_32.j2
+      src: rc.local_36.j2
       dest: /etc/rc.local
       mode: 0755
+   when: net_type == 36
+   tags:
+   - rc.local
 
-
-
+ - name: Send rc.local, ipv6/32
+   template:
+      src: rc.local_32.j2
+      dest: /etc/rc.local
+      mode: 0755
+   when: net_type == 32
+   tags:
+   - rc.local
