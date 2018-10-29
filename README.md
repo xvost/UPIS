@@ -8,20 +8,23 @@ Python 3.5.2+
 
 ## Usage
 
-Copy inventory/env.example to inventory/env
-
+Clone repo
 ```
-cp inventory/env.example inventory/env
+git clone https://github.com/xvost/Ansible_proxies.git
 ```
-
-Edit in inventory/env host addresses
-
+Change dir
 ```
-editor inventory/env
+cd ./Ansible_proxies
 ```
-
-Run
-
+Rename data.conf
 ```
-ansible-playbook -i 'inventory/env' ./startup_point.yml
+cp ./data.conf.example ./data.conf
+```
+Edit data.conf
+```
+editor ./data.conf
+```
+Start creation script 
+```
+./start_install.py  
 ```
