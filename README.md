@@ -4,7 +4,7 @@
 
 Ansible 2.7.0+
 
-Python 3.5.2+
+Python 3.7.0+
 
 ## Usage
 

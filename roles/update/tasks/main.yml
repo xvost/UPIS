@@ -20,24 +20,41 @@
  - name: Install packages
    apt:
      name: "{{ packages }}"
+     update_cache: yes
    vars:
      packages:
      - mc
      - bc
      - bind9
      - nscd
+   tags:
+   - dns
 
  - name: Change listening ips
    shell: sed -i 's/listen-on-v6 { any; };/listen-on { 127.0.0.1; };/g' /etc/bind/named.conf.options
    args:
      executable: /bin/bash
+   tags:
+   - dns
 
  - name: Change nameservers
-   shell: sed -i 's/8.8.8.8/127.0.0.1/g' /etc/network/interfaces /etc/resolv.conf
+   shell: sed -i 's/8.8.8.8/127.0.0.1/g' /etc/network/interfaces
    args:
      executable: /bin/bash
+   tags:
+   - dns
+
+ - name: Copy resolv.conf
+   copy:
+     src: resolv.conf
+     dest: /etc/resolv.conf
+     mode: 0744
+   tags:
+   - dns
 
  - name: Restart bind9 service
    service:
-    name: bind9
-    state: restarted
+     name: bind9
+     state: restarted
+   tags:
+   - dns
