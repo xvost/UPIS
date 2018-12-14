@@ -1,4 +1,4 @@
-proxy_login proxy_password proxy_count proxy_type rotation_type(only ipv6/36) rotation(yes|no)
+proxy_login proxy_password proxy_count proxy_type rotation(True|False) rotation_type(only ipv6/36)
 1st_server's_ipv4 server's_ipv664(gateway) server's_ipv6 root_password
 2nd_server's_ipv4 server's_ipv664(gateway) server's_ipv6 root_password
 3rd_server's_ipv4 server's_ipv664(gateway) server's_ipv6 root_password

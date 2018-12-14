@@ -6,7 +6,7 @@ env = open('./inventory/env', 'w')
 env.write('proxy:\n  hosts:\n')
 
 config_data = open('data.conf', 'r')
-login, password, count, net_type, rotate_type, rotate = config_data.readline().split(' ')
+login, password, count, net_type, rotate_type, rotate, mail = config_data.readline().split(' ')
 
 for line in config_data:
     if line == '': continue
