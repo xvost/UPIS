@@ -3,6 +3,10 @@
      repo: deb http://ftp.debian.org/debian jessie-backports main
      state: present
 
+ - name: Update cache
+   apt:
+     update_cache: yes
+
  - name: Install Kernel 4.
    apt:
      name: linux-image-amd64
