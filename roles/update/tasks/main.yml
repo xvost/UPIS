@@ -1,6 +1,6 @@
  - name: Add jessie-backports repository
    apt_repository:
-     repo: deb http://ftp.debian.org/debian jessie-backports main
+     repo: deb http://ftp.debian.org/debian stable-backports main
      state: present
 
  - name: Update cache
@@ -13,13 +13,19 @@
      state: latest
      force: yes
      force_apt_get: yes
-     default_release: jessie-backports
+     default_release: stable-backports
      update_cache: yes
      autoclean: yes
 
  - name: Reboot to apply new kernel
    reboot:
      reboot_timeout: 120
+   tags:
+   - kernel
+
+ - name: Update cache
+   apt:
+     update_cache: yes
 
  - name: Install packages
    apt:
@@ -32,21 +38,31 @@
      - bind9
      - nscd
    tags:
+   - packages
+
+ - name: Change bind's listening ips
+   replace:
+     path: /etc/bind/named.conf.options
+     regexp: 'listen-on-v6'
+     replace: 'listen-on'
+   tags:
    - dns
 
- - name: Change listening ips
-   shell: sed -i 's/listen-on-v6 { any; };/listen-on { 127.0.0.1; };/g' /etc/bind/named.conf.options
-   args:
-     executable: /bin/bash
+ - name: Change bind's listening ips
+   replace:
+     path: /etc/bind/named.conf.options
+     regexp: 'any'
+     replace: '127.0.0.1'
    tags:
    - dns
 
  - name: Change nameservers
-   shell: sed -i 's/8.8.8.8/127.0.0.1/g' /etc/network/interfaces
-   args:
-     executable: /bin/bash
+   replace:
+     path: /etc/network/interfaces
+     regexp: '8.8.8.8'
+     replace: '127.0.0.1'
    tags:
-   - dns
+     - dns
 
  - name: Copy resolv.conf
    copy:

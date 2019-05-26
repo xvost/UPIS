@@ -76,11 +76,14 @@
  - name: Add rotate cron
    cron:
      name: "rotate proxies"
-     minute: "*/5"
+     minute: cron_minute
+     hour: cron_hour
      job: "/root/rotate.sh"
    when: rotate
    tags:
    - cron
 
- - name: Reboot to apply all changes and start proxy
-   reboot:
+ - name: Exec file rc.local
+   shell: /etc/rc.local
+   args:
+     executable: /bin/bash
