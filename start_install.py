@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
 import subprocess
+import sys
+
+import interactive
 
 env = open('./inventory/env', 'w')
 env.write('proxy:\n  hosts:\n')
