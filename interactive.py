@@ -34,18 +34,18 @@ if subnet_type not in ['64', '48', '36', '32']:
     sys.exit(0)
 
 server_ip = input('ip адрес серера для подключения к серверу\n'
-                  'если несколько, то разделитель пробел\n')
+                  'если несколько, то разделитель пробел\n').split(' ')
 
 server_passwd = input('root пароль сервера\n'
-                      'если несколько, то разделитель пробел\n')
+                      'если несколько, то разделитель пробел\n').split(' ')
 
 getway_subnet = input('Укажи шлюзовую сеть, это /64 обычно\n'
                       'без указания размерности\n'
                       'если серверов несколько, то разделитель пробел\n'
                       'Пример:\n'
-                      '2aaa:bbb:1:2 2a09:400:1 2aaa:bbb:1:3\n')
+                      '2aaa:bbb:1:2 2a09:400:1 2aaa:bbb:1:3\n').split(' ')
 try:
-    for net in getway_subnet.split(' '):
+    for net in getway_subnet:
         ipaddress.IPv6Network(net+'::')
 except ipaddress.NetmaskValueError:
     print('Одна или несколько сетей указаны не верно\n')
@@ -57,10 +57,10 @@ except ipaddress.AddressValueError:
 if subnet_type != '64':
     subnet = input('Основные сети через которые будут ходить прокси\n'
                'без указания размерности\n'
-               'если несколько, то разделитель пробел\n')
+               'если несколько, то разделитель пробел\n').split(' ')
 
     try:
-        for net in subnet.split(' '):
+        for net in subnet:
             ipaddress.IPv6Network(net+'::')
     except ipaddress.NetmaskValueError:
         print('Одна или несколько сетей указаны не верно')
@@ -68,6 +68,8 @@ if subnet_type != '64':
     except ipaddress.AddressValueError:
         print('Одна или несколько сетей указаны не верно')
         sys.exit(0)
+else:
+    subnet = getway_subnet
 
 count = input('Количество прокси\n')
 login = input('Логин прокси\n')
@@ -75,9 +77,48 @@ passwd = input('Пароль прокси\n')
 rotation = input('Ротация Y|N\n')
 
 if rotation.lower() == 'y':
-    cron = input('Маска времени ротации в формате crontab \n'
-                 'Указжи только часы и минуты\n'
+    rotation = 'True'
+    cron = input('Маска времени ротации \n'
+                 'Укажи только часы и минуты\n'
                  'Пример: 5 */1 - каждый час в 05 минут')
+else:
+    rotation = 'False'
+    cron = '* *'
 
-cron = '* *'
+env = open('./inventory/env', 'w')
+env.write('proxy:\n  hosts:\n')
 
+for id, line in enumerate(server_ip):
+    ip = server_ip[id]
+    ipv64 = getway_subnet[id]
+    ipv6 = subnet[id]
+    root_passwd = server_passwd[id]
+    env.write(str('\n'
+                  '    server_{ip}:\n'
+                  '      ansible_host: {ip}\n'
+                  '      ansible_ssh_user: root\n'
+                  '      ansible_ssh_pass: {root_passwd}\n'
+                  '      ipv4: {ip}\n'
+                  '      nipv6: {ipv6}\n'
+                  '      nipv664: {ipv64}\n').format(ip=ip,
+                                                     root_passwd=root_passwd,
+                                                     ipv6=ipv6,
+                                                     ipv64=ipv64))
+
+env.write(str(('\n'
+               '  vars:\n'
+               '    net_type: {net_type}\n'
+               '    count: {count}\n'
+               '    proxy_password: {password}\n'
+               '    rotate_type: {rotate_type}\n'
+               '    rotate: {rotate}\n'
+               '    cron_hour: "{hour}"\n'
+               '    cron_minute: "{minute}"').format(net_type=subnet_type,
+                              count=count,
+                              password=passwd,
+                              rotate=rotation,
+                              rotate_type='simple',
+                              hour=cron.split(' ')[1],
+                              minute=cron.split(' ')[0])))
+
+env.close()
