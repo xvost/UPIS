@@ -1,27 +1,21 @@
- - name: Add jessie-backports repository
-   apt_repository:
-     repo: deb http://ftp.debian.org/debian stable-backports main
-     state: present
-
- - name: Update cache
-   apt:
-     update_cache: yes
-
- - name: Install Kernel 4.
-   apt:
-     name: linux-image-amd64
-     state: latest
-     force: yes
-     force_apt_get: yes
-     default_release: stable-backports
-     update_cache: yes
-     autoclean: yes
-
- - name: Reboot to apply new kernel
-   reboot:
-     reboot_timeout: 120
-   tags:
-   - kernel
+# - name: Add jessie-backports repository
+#   apt_repository:
+#     repo: deb http://ftp.debian.org/debian stable-backports main
+#     state: present
+#
+# - name: Update cache
+#   apt:
+#     update_cache: yes
+#
+# - name: Install Kernel 4.
+#   apt:
+#     name: linux-image-amd64
+#     state: latest
+#     force: yes
+#     force_apt_get: yes
+#     default_release: stable-backports
+#     update_cache: yes
+#     autoclean: yes
 
  - name: Update cache
    apt:
@@ -37,8 +31,52 @@
      - bc
      - bind9
      - nscd
+     - git
+     - make
+     - gcc
    tags:
    - packages
+
+ - name: Get new kernel
+   get_url:
+     url: "{{ item }}"
+     dest: /root/
+   with_items:
+     - https://blog.vpsville.ru/uploads/kernel-4.3/linux-headers-4.3.0-040300_4.3.0-040300.201511020949_all.deb
+     - https://blog.vpsville.ru/uploads/kernel-4.3/linux-headers-4.3.0-040300-generic_4.3.0-040300.201511020949_amd64.deb
+     - https://blog.vpsville.ru/uploads/kernel-4.3/linux-image-4.3.0-040300-generic_4.3.0-040300.201511020949_amd64.deb
+   tags:
+   - kernel
+
+ - name: Install a .deb package from the blog.
+   apt:
+     deb: "{{ item }}"
+   with_items:
+     - linux-headers-4.3.0-040300_4.3.0-040300.201511020949_all.deb
+     - linux-headers-4.3.0-040300-generic_4.3.0-040300.201511020949_amd64.deb
+     - linux-image-4.3.0-040300-generic_4.3.0-040300.201511020949_amd64.deb
+   register: update
+
+ - name: Reboot to apply new kernel
+   reboot:
+     reboot_timeout: 120
+   when: update is changed
+   tags:
+   - kernel
+
+ - name: Get git repo 3proxy
+   git:
+     repo: https://github.com/z3APA3A/3proxy.git
+     dest: /root/3proxy
+
+ - name: Make 3proxy
+   shell: cd /root/3proxy && make -f Makefile.Linux
+   args:
+     executable: /bin/bash
+   ignore_errors: true
+
+ - name: Copy 3proxy binary
+   shell: cp /root/3proxy/bin/3proxy /home/3proxy/3proxy
 
  - name: Change bind's listening ips
    replace:

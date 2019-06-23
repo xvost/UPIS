@@ -31,9 +31,8 @@ env.write(str(('\n'
                '    proxy_password: {password}\n'
                '    rotate_type: {rotate_type}\n'
                '    rotate: {rotate}\n'
-               '    cron_hour: {hour}\n'
-               '    cron_minute: {minute}\n'
-               '    ').format(net_type=net_type,
+               '    cron_hour: "{hour}"\n'
+               '    cron_minute: "{minute}"').format(net_type=net_type,
                               count=count,
                               password=password,
                               rotate=rotate,

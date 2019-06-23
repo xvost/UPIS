@@ -6,6 +6,5 @@ ulimit -u 600000
 /sbin/ip -6 route add default via {{ nipv664 }}::1
 /sbin/ip -6 route add local {{ nipv6 }}::/{{ net_type }} dev lo
 
-/root/3proxy/3proxy /root/3proxy/3proxy.cfg
 exit 0
 

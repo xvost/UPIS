@@ -7,6 +7,6 @@ ulimit -u 600000
 /sbin/ip -6 route add local {{ nipv6 }}::/{{ net_type }} dev lo
 
 /root/ndppd/ndppd -d -c /root/ndppd/ndppd.conf
-/root/3proxy/3proxy /root/3proxy/3proxy.cfg
+
 exit 0
 

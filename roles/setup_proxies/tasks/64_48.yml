@@ -1,14 +1,14 @@
  - name: Send random.sh, ipv6/64
    template:
       src: random_64.j2
-      dest: /root/random.sh
+      dest: /home/3proxy/random.sh
       mode: 0755
    when: net_type == 64
 
  - name: Send random.sh, ipv6/48
    template:
       src: random_48.j2
-      dest: /root/random.sh
+      dest: /home/3proxy/random.sh
       mode: 0755
    when: net_type == 48
 

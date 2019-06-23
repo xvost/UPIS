@@ -29,13 +29,15 @@
      mode: 0755
    with_items:
      - 'ndppd'
-     - '3proxy'
 
- - name: Copy binary 3proxy
-   copy:
-     src: bin/3proxy
-     dest: /root/3proxy/3proxy
-     mode: 0744
+ - file:
+     path: '/home/{{ item }}'
+     state: directory
+     mode: 0755
+     owner: nobody
+     group: nogroup
+   with_items:
+     - '3proxy'
 
  - name: Copy binary ndppd
    copy:
@@ -46,7 +48,7 @@
  - name: Send 3proxy.sh
    template:
       src: 3proxy.j2
-      dest: /root/3proxy.sh
+      dest: /home/3proxy/3proxy.sh
       mode: 0755
 
  - name: Start install proxy 36/32
@@ -58,19 +60,19 @@
    when: net_type == 64 or net_type == 48
 
  - name: Create ip.list
-   shell: /root/random.sh > /root/ip.list
+   shell: /home/3proxy/random.sh > /home/3proxy/ip.list
    args:
      executable: /bin/bash
 
  - name: Create 3proxy.cfg
-   shell: /root/3proxy.sh > /root/3proxy/3proxy.cfg
+   shell: /home/3proxy/3proxy.sh > /home/3proxy/3proxy.cfg
    args:
      executable: /bin/bash
 
  - name: Copy rotate.sh
    copy:
      src: rotate.sh
-     dest: /root/rotate.sh
+     dest: /home/3proxy/rotate.sh
      mode: 0744
 
  - name: Add rotate cron
@@ -78,12 +80,29 @@
      name: "rotate proxies"
      minute: cron_minute
      hour: cron_hour
-     job: "/root/rotate.sh"
-   when: rotate
+     job: "/home/3proxy/rotate.sh"
+   when: rotate | bool
    tags:
    - cron
+
+ - name: Change owner to nobody
+   file:
+     path: /home/3proxy
+     owner: nobody
+     group: nogroup
+     recurc: yes
 
  - name: Exec file rc.local
    shell: /etc/rc.local
    args:
      executable: /bin/bash
+
+ - name: Send systemd .service file
+   copy:
+     src: 3proxy.service
+     dest: /etc/systemd/system/3proxy.service
+     mode: 0744
+
+ - name: start 3proxy.service
+   systemd: state=restarted name=3proxy daemon_reload=yes enabled=yes
+   tags: systemd
