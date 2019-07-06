@@ -1,0 +1,4 @@
+proxy_login proxy_password proxy_count
+1st_server's_ipv4 subnet root_password
+2nd_server's_ipv4 subnet root_password
+3rd_server's_ipv4 subnet root_password

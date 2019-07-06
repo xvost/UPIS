@@ -1,0 +1,82 @@
+ - name: Update cache
+   apt:
+     update_cache: yes
+
+ - name: Install packages
+   apt:
+     name: "{{ packages }}"
+     update_cache: yes
+   vars:
+     packages:
+     - mc
+     - bc
+     - bind9
+     - nscd
+     - git
+     - make
+     - gcc
+     - python3
+   tags:
+   - packages
+
+ - name: Get git repo 3proxy
+   git:
+     repo: https://github.com/z3APA3A/3proxy.git
+     dest: /root/3proxy
+
+ - name: Make 3proxy
+   shell: cd /root/3proxy && make -f Makefile.Linux
+   args:
+     executable: /bin/bash
+   ignore_errors: true
+
+ - name: Copy 3proxy binary
+   shell: cp /root/3proxy/bin/3proxy /root/3proxy/3proxy
+
+ - name: Change bind's listening ips
+   replace:
+     path: /etc/bind/named.conf.options
+     regexp: 'listen-on-v6'
+     replace: 'listen-on'
+   tags:
+   - dns
+
+ - name: Change bind's listening ips
+   replace:
+     path: /etc/bind/named.conf.options
+     regexp: 'any'
+     replace: '127.0.0.1'
+   tags:
+   - dns
+
+ - name: Change nameservers
+   replace:
+     path: /etc/network/interfaces
+     regexp: '8.8.8.8'
+     replace: '127.0.0.1'
+   tags:
+     - dns
+
+ - name: Copy resolv.conf
+   copy:
+     src: resolv.conf
+     dest: /etc/resolv.conf
+     mode: 0744
+   tags:
+   - dns
+
+ - name: Restart bind9 service
+   service:
+     name: bind9
+     state: restarted
+   tags:
+   - dns
+
+ - name: Copy script
+   copy:
+     src: scripts/setup_ipv4.py
+     dest: /root/setup_ipv4.py
+     mode: 0744
+
+ - name: Create 3proxy config
+   shell: /root/setup_ipv4.py '{{ proxy_login }}' '{{ proxy_password }}' '{{ subnet }}'
