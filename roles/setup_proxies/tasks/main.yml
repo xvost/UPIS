@@ -30,15 +30,6 @@
    with_items:
      - 'ndppd'
 
- - file:
-     path: '/home/{{ item }}'
-     state: directory
-     mode: 0755
-     owner: nobody
-     group: nogroup
-   with_items:
-     - '3proxy'
-
  - name: Copy binary ndppd
    copy:
      src: bin/ndppd
@@ -90,7 +81,7 @@
      path: /home/3proxy
      owner: nobody
      group: nogroup
-     recurc: yes
+     recurse: yes
 
  - name: Exec file rc.local
    shell: /etc/rc.local

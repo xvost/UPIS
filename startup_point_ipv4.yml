@@ -1,4 +1,0 @@
----
- - hosts: proxyv4
-   roles:
-   - setup_proxies_ipv4

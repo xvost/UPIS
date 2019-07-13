@@ -75,6 +75,16 @@
      executable: /bin/bash
    ignore_errors: true
 
+ - name: mkdir /home/3proxy
+   file:
+     path: '/home/{{ item }}'
+     state: directory
+     mode: 0755
+     owner: nobody
+     group: nogroup
+   with_items:
+     - '3proxy'
+
  - name: Copy 3proxy binary
    shell: cp /root/3proxy/bin/3proxy /home/3proxy/3proxy
 

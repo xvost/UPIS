@@ -5,8 +5,8 @@ echo daemon
 echo maxconn 10000
 echo nscache 65536
 echo timeouts 1 5 30 60 180 1800 15 60
-echo setgid 65535
-echo setuid 65535
+echo setgid 65534
+echo setuid 65534
 echo pidfile /home/3proxy/3proxy.pid
 echo flush
 echo auth strong
@@ -15,7 +15,7 @@ echo users admin:CL:{{ proxy_password }}
 echo allow admin
 
 port=30000
-for i in `cat ip.list`; do
+for i in `cat /home/3proxy/ip.list`; do
     echo "proxy -6 -n -a -p$port -i{{ ipv4 }} -e$i"
     ((port+=1))
 done

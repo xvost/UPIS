@@ -1,4 +1,13 @@
-def start():
+import sys
+
+def start(test):
+    if test == 'ipv4':
+        print('Sorry Mario, but you need config file method')
+        sys.exit(0)
+    else:
+        ipv6()
+
+def ipv6():
     import ipaddress
 
     print('\n\nПривет!\n'
@@ -19,8 +28,7 @@ def start():
 
     iagree = input()
 
-    if iagree.lower() not in ['y', 'yes', 'да', 'д']:
-        sys.exit(0)
+    if iagree.lower() not in ['y', 'yes', 'да', 'д']: sys.exit(0)
 
     subnet_type = input('Укажи сеть в которой будут работать прокси\n'
                         'принимаемые значения:\n'
