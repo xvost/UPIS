@@ -94,7 +94,7 @@ def ipv6():
         cron = '* *'
 
     env = open('./inventory/env', 'w')
-    env.write('proxy:\n  hosts:\n')
+    env.write('proxyv6:\n  hosts:\n')
 
     for id, line in enumerate(server_ip):
         ip = server_ip[id]

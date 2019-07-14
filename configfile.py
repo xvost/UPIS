@@ -7,7 +7,7 @@ def start(subnet_type):
 
 def ipv6():
     env = open('./inventory/env', 'w')
-    env.write('proxy:\n  hosts:\n')
+    env.write('proxyv6:\n  hosts:\n')
 
     config_data = open('data.conf', 'r')
     login, password, count, net_type, rotate_type, rotate, cron = config_data.readline().split(' ')
@@ -35,14 +35,14 @@ def ipv6():
                    '    proxy_password: {password}\n'
                    '    rotate_type: {rotate_type}\n'
                    '    rotate: {rotate}\n'
-                   '    cron_hour: "{minute}"\n'
-                   '    cron_minute: "{hour}"').format(net_type=net_type,
+                   '    cron_hour: {hour}\n'
+                   '    cron_minute: {minute}').format(net_type=net_type,
                                   count=count,
                                   password=password,
                                   rotate=rotate,
                                   rotate_type=rotate_type,
-                                  hour=cron.split(',')[1],
-                                  minute=cron.split(',')[0])))
+                                  hour=cron.split(',')[0],
+                                  minute=cron.split(',')[1].strip('\n'))))
 
     env.close()
 
