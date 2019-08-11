@@ -9,8 +9,12 @@ def ipv6():
     env = open('./inventory/env', 'w')
     env.write('proxyv6:\n  hosts:\n')
 
-    config_data = open('data.conf', 'r')
+    config_data = open('data_ipv6.conf', 'r')
     login, password, count, net_type, rotate_type, rotate, cron = config_data.readline().split(' ')
+    minute = cron.split(',')[0]
+    hour = cron.split(',')[1].strip('\n')
+    if minute == '*': minute = '"*"'
+    if hour == '*': hour = '"*"'
 
     for line in config_data:
         if line == '':
@@ -41,8 +45,8 @@ def ipv6():
                                   password=password,
                                   rotate=rotate,
                                   rotate_type=rotate_type,
-                                  hour=cron.split(',')[0],
-                                  minute=cron.split(',')[1].strip('\n'))))
+                                  hour=hour,
+                                  minute=minute)))
 
     env.close()
 
