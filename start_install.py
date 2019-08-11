@@ -15,8 +15,8 @@ def config(ip, type):
 arguments = argparse.ArgumentParser()
 arguments.add_argument('type', choices=('ipv4', 'ipv6'), help='Type of subnet, default {ipv6}', default='ipv6')
 start_type = arguments.add_mutually_exclusive_group()
-start_type.add_argument('-i', action='store_false', help='Interactive')
-start_type.add_argument('-c', action='store_true', help='Configfile')
+start_type.add_argument('-i', action='store_false', help='Interactive mode')
+start_type.add_argument('-c', action='store_true', help='Use configfile ./data_ipv6.conf or ./data_ipv4.conf')
 
 args = arguments.parse_args()
 
