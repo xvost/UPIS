@@ -24,7 +24,18 @@ Edit data.conf
 ```
 editor ./data.conf
 ```
-Start creation script 
+Start script
 ```
-./start_install.py  
+./start_install.py -c ipv6
+```
+
+OR
+
+Change dir
+```
+cd ./Ansible_proxies
+```
+Start script at interactive mode
+```
+./start_install.py -i ipv6
 ```
