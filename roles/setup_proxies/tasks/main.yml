@@ -23,6 +23,16 @@
     value: 1
     sysctl_set: yes
 
+ - sysctl:
+     name: vm.max_map_count
+     value: 95120
+     sysctl_set: yes
+
+ - sysctl:
+     name: kernel.pid_max
+     value: 95120
+     sysctl_set: yes
+
  - file:
      path: '/root/{{ item }}'
      state: directory
