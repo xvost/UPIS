@@ -6,10 +6,19 @@ import argparse
 import interactive
 import configfile
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 def config(ip, type):
     if not type and ip == 'input':
-        ip = input('Тип сетей для настройки (ipv4|ipv6):\n')
+        ip = input(bcolors.OKGREEN + 'Тип сетей для настройки (ipv4|ipv6):\n'+bcolors.ENDC)
     start_type = [interactive, configfile][type]
     start_type.start(ip)
 
