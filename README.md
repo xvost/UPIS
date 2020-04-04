@@ -10,11 +10,11 @@ Python 3.6.0+
 
 Clone repo
 ```
-git clone https://github.com/xvost/Ansible_proxies.git
+git clone https://github.com/xvost/UPIS.git
 ```
 Change dir
 ```
-cd ./Ansible_proxies
+cd ./UPIS
 ```
 Rename data.conf
 ```
@@ -37,7 +37,7 @@ OR
 
 Change dir
 ```
-cd ./Ansible_proxies
+cd ./UPIS
 ```
 Start script at interactive mode
 ```
