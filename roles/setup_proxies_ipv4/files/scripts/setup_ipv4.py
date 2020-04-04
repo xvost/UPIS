@@ -8,7 +8,10 @@ import sys
 login, passwd, subnet = sys.argv[1:]
 
 head = '''daemon
-maxconn 30000
+echo maxconn 20000
+echo nserver 127.0.0.1
+echo nserver 8.8.8.8
+echo nserver 1.1.1.1
 nscache 65536
 timeouts 1 5 30 60 180 1800 15 60
 setgid 65534
