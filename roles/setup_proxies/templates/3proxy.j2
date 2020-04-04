@@ -16,6 +16,6 @@ echo allow admin
 
 port=30000
 for i in `cat /home/3proxy/ip.list`; do
-    echo "proxy -6 -n -a -p$port -i{{ ipv4 }} -e$i"
+    echo "proxy -6 -s0 -n -a -p$port -i{{ ipv4 }} -e$i"
     ((port+=1))
 done

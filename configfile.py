@@ -11,8 +11,8 @@ def ipv6():
 
     config_data = open('data_ipv6.conf', 'r')
     login, password, count, net_type, rotate_type, rotate, cron = config_data.readline().split(' ')
-    minute = cron.split(',')[0]
-    hour = cron.split(',')[1].strip('\n')
+    minute = cron.split(',')[1].strip('\n')
+    hour = cron.split(',')[0]
     if minute == '*': minute = '"*"'
     if hour == '*': hour = '"*"'
 

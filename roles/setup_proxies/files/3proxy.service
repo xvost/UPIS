@@ -11,6 +11,7 @@ Group=nogroup
 OOMScoreAdjust=-1000
 LimitNOFILE=65536
 LimitNPROC=65536
+LimitSIGPENDING=65536
 ExecStart=/home/3proxy/3proxy /home/3proxy/3proxy.cfg
 ExecStop=/usr/bin/killall 3proxy
 ExecReload=/usr/bin/killall 3proxy && /home/3proxy/3proxy /home/3proxy/3proxy.cfg

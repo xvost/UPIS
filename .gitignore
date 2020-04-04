@@ -1,2 +1,4 @@
 *.retry
 inventory/env
+*.conf
+.idea

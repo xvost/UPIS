@@ -8,8 +8,7 @@ import sys
 login, passwd, subnet = sys.argv[1:]
 
 head = '''daemon
-maxconn 10000
-stacksize 5000
+maxconn 30000
 nscache 65536
 timeouts 1 5 30 60 180 1800 15 60
 setgid 65534
@@ -35,7 +34,7 @@ sleep 5
 exit 0
 '''
 
-proxy_string = 'proxy -n -a -p{port} -i{input} -e{output}\n'
+proxy_string = 'proxy -s0 -n -a -p{port} -i{input} -e{output}\n'
 rc_local = '/sbin/ip addr add {ip} dev eth0 \n'
 
 
