@@ -68,12 +68,14 @@
    git:
      repo: https://github.com/z3APA3A/3proxy.git
      dest: /root/3proxy
+   register: getgit
 
  - name: Make 3proxy
    shell: cd /root/3proxy && make -f Makefile.Linux
    args:
      executable: /bin/bash
    ignore_errors: true
+   when: getgit is changed
 
  - name: mkdir /home/3proxy
    file:
@@ -87,6 +89,7 @@
 
  - name: Copy 3proxy binary
    shell: cp /root/3proxy/bin/3proxy /home/3proxy/3proxy
+   when: getgit is changed
 
  - name: Change bind's listening ips
    replace:

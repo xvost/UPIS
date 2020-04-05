@@ -91,7 +91,7 @@ def ipv6():
                      'Пример: 5 */1 - каждый час в 05 минут\n')
     else:
         rotation = 'False'
-        cron = '*,*'
+        cron = '* *'
 
     env = open('./inventory/env', 'w')
     env.write('proxyv6:\n  hosts:\n')
