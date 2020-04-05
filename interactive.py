@@ -117,12 +117,14 @@ def ipv6():
                    '  vars:\n'
                    '    net_type: {net_type}\n'
                    '    count: {count}\n'
+                   '    proxy_login: {login}\n'
                    '    proxy_password: {password}\n'
                    '    rotate_type: {rotate_type}\n'
                    '    rotate: {rotate}\n'
                    '    cron_hour: "{hour}"\n'
                    '    cron_minute: "{minute}"').format(net_type=subnet_type,
                                   count=count,
+                                  login=login,
                                   password=passwd,
                                   rotate=rotation,
                                   rotate_type='simple',
