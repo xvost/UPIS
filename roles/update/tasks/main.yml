@@ -68,6 +68,7 @@
    git:
      repo: https://github.com/z3APA3A/3proxy.git
      dest: /root/3proxy
+     force: yes
    register: getgit
 
  - name: Make 3proxy
