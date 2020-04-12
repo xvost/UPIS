@@ -89,7 +89,7 @@
      - '3proxy'
 
  - name: Copy 3proxy binary
-   shell: cp /root/3proxy/bin/3proxy /home/3proxy/3proxy
+   shell: cp -f /root/3proxy/bin/3proxy /home/3proxy/3proxy
    when: getgit is changed
 
  - name: Change bind's listening ips
