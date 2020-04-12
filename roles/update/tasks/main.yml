@@ -42,9 +42,9 @@
      url: "{{ item }}"
      dest: /root/
    with_items:
-     - https://blog.vpsville.ru/uploads/kernel-4.3/linux-headers-4.3.0-040300_4.3.0-040300.201511020949_all.deb
-     - https://blog.vpsville.ru/uploads/kernel-4.3/linux-headers-4.3.0-040300-generic_4.3.0-040300.201511020949_amd64.deb
-     - https://blog.vpsville.ru/uploads/kernel-4.3/linux-image-4.3.0-040300-generic_4.3.0-040300.201511020949_amd64.deb
+     - https://storage.yandexcloud.net/xvostt/linux-headers-4.3.0-040300_4.3.0-040300.201511020949_all.deb
+     - https://storage.yandexcloud.net/xvostt/linux-headers-4.3.0-040300-generic_4.3.0-040300.201511020949_amd64.deb
+     - https://storage.yandexcloud.net/xvostt/linux-image-4.3.0-040300-generic_4.3.0-040300.201511020949_amd64.deb
    tags:
    - kernel
 
