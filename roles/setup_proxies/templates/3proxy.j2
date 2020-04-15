@@ -17,7 +17,7 @@ echo auth strong
 echo users {{ proxy_login }}:CL:{{ proxy_password }}
 echo allow {{ proxy_login }}
 
-port=10001
+port={{ start_port }}
 for i in `cat /home/3proxy/ip.list`; do
     echo "proxy -6 -s0 -n -a -p$port -i{{ ipv4 }} -e$i"
     ((port+=1))

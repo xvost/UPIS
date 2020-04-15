@@ -1,0 +1,42 @@
+[Proxy]
+login=proxy
+password=somestrongpasswd
+startport=30000
+nettype=32
+#totalcount is default
+quantityinsubnet=200
+rotation=no
+#cronstring *,"*/2" hours,minutes
+cronstring=*,"*/2"
+#simple or custom only for /36
+randomtype=simple
+
+[Servers]
+#example for /36
+    [[Server1]]
+        ip=127.0.0.1
+        login=root
+        password=somestrongpasswd
+        gatewayipv64=aaaa:bbbb:cccc:dddd
+        proxynetwork=abcd:abcd:d
+#example for /64
+    [[Server2]]
+        ip=127.0.0.2
+        login=root
+        password=somestrongpasswd
+        gatewayipv64=aaaa:bbbb:cccc:dddd
+        proxynetwork=aaaa:bbbb:cccc:eeee
+#example for /48
+    [[Server3]]
+        ip=127.0.0.3
+        login=root
+        password=somestrongpasswd
+        gatewayipv64=
+        proxynetwork=
+#example for several similar subnets
+    [[Server4]]
+        ip=127.0.0.4
+        login=root
+        password=somestrongpasswd
+        gatewayipv64=aaaa:bbbb:cccc:dddd
+        proxynetwork=aaaa:bbbb:cccc:eeee,aaaa:bbbb:cccc:dddd,aaaa:bbbb:cccc:ffff

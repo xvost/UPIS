@@ -94,4 +94,4 @@
      mode: 0744
 
  - name: Create 3proxy config
-   shell: /root/setup_ipv4.py '{{ proxy_login }}' '{{ proxy_password }}' '{{ subnet }}'
+   shell: /root/setup_ipv4.py '{{ proxy_login }}' '{{ proxy_password }}' '{{ subnet }}' '{{ start_port }}'

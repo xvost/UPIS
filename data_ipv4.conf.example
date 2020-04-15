@@ -1,4 +1,19 @@
-proxy_login proxy_password proxy_count
-1st_server's_ipv4 subnet root_password
-2nd_server's_ipv4 subnet root_password
-3rd_server's_ipv4 subnet root_password
+[Proxy]
+login=proxy
+password=somestrongpasswd
+startport=30000
+quantityinsubnet=200
+
+[Servers]
+    #example for 1 subnet
+    [[Server1]]
+    ip=127.0.0.1
+    login=root
+    password=somestrongpasswd
+    proxynetwork=10.10.10.0/24
+    #example for similar subnets
+    [[Server2]]
+    ip=127.0.0.1
+    login=root
+    password=somestrongpasswd
+    proxynetwork=10.10.10.0/24,10.10.20.0/24

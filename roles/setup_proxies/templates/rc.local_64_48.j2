@@ -2,11 +2,10 @@
 ulimit -n 600000
 ulimit -u 600000
 
-/sbin/ip -6 addr add {{ nipv6 }}::2/64 dev eth0
+/sbin/ip -6 addr add {{ nipv6 }}::2/{{ net_type }} dev eth0
 /sbin/ip -6 route add default via {{ nipv6 }}::1
 /sbin/ip -6 route add local {{ nipv6 }}::/{{ net_type }} dev lo
 
 /root/ndppd/ndppd -d -c /root/ndppd/ndppd.conf
 
 exit 0
-

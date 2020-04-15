@@ -4,7 +4,7 @@
 array=( 1 2 3 4 5 6 7 8 9 0 a b c d e f )
 MAXCOUNT={{ count }}
 count=1
-network={{ nipv6 }}
+networks=({{ nipv6 }})
 len=4
 {% raw %}
 rnd_ip_block ()
@@ -18,27 +18,32 @@ rnd_ip_block ()
 }
 
 g_block=`cat /root/ip2.list | tr '[:lower:]' '[:upper:]'`
-decimal_block=$(echo "obase=10; ibase=16; $g_block" | bc)
-while [ "$count" -le $MAXCOUNT ]   
-do
-        decimal_block=$[$decimal_block +1]
-        if [ "$decimal_block" -eq "4096" ]
-        then
-            decimal_block=0
-        fi
-        a=`echo 'ibase=10;obase=16;'$decimal_block | bc | tr '[:upper:]' '[:lower:]'`
-        if [ ${#a} -lt $len ]
-        then
-            t=$[$len-${#a}]
-            i=1
-            while [ $i -lt $t ]; do
-                a="0"$a
-                let "i += 1"
-        done
-        fi
-        sub_network=$network$a
-        rnd_ip_block
-        let "count += 1" 
+
+for net in ${networks[*]}
+    do
+    decimal_block=$(echo "obase=10; ibase=16; $g_block" | bc)
+    count=1
+    while [ "$count" -le $MAXCOUNT ]
+    do
+            decimal_block=$[$decimal_block +1]
+            if [ "$decimal_block" -eq "4096" ]
+            then
+                decimal_block=0
+            fi
+            a=`echo 'ibase=10;obase=16;'$decimal_block | bc | tr '[:upper:]' '[:lower:]'`
+            if [ ${#a} -lt $len ]
+            then
+                t=$[$len-${#a}]
+                i=1
+                while [ $i -lt $t ]; do
+                    a="0"$a
+                    let "i += 1"
+            done
+            fi
+            sub_network=$net$a
+            rnd_ip_block
+            let "count += 1"
+    done
 done
 echo $a > /root/ip2.list
 {% endraw %}
