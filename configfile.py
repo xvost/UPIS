@@ -96,5 +96,4 @@ def ipv4():
                                                             port=proxy['startport'],
                                                             login=proxy['login'],
                                                             password=proxy['password'])))
-
     env.close()

@@ -46,7 +46,7 @@
    ignore_errors: true
 
  - name: Copy 3proxy binary
-   shell: cp /root/3proxy/bin/3proxy /root/3proxy/3proxy
+   shell: cp -f /root/3proxy/bin/3proxy /root/3proxy/3proxy
 
  - name: Change bind's listening ips
    replace:
@@ -94,4 +94,4 @@
      mode: 0744
 
  - name: Create 3proxy config
-   shell: /root/setup_ipv4.py '{{ proxy_login }}' '{{ proxy_password }}' '{{ subnet }}' '{{ start_port }}'
+   shell: /root/setup_ipv4.py '{{ proxy_login }}' '{{ proxy_password }}' '{{ subnet }}' '{{ ansible_host }}' '{{ start_port }}'

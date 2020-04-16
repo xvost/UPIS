@@ -8,7 +8,8 @@ import sys
 login = sys.argv[1]
 passwd = sys.argv[2]
 subnet = sys.argv[3:][0].split(', ')
-startport = sys.argv[4]
+inputip = sys.argv[4]
+startport = sys.argv[5]
 
 print(subnet)
 
@@ -46,14 +47,14 @@ proxy_string = 'proxy -s0 -n -a -p{port} -i{input} -e{output}\n'
 rc_local = '/sbin/ip addr add {ip} dev eth0 \n'
 
 
-def subnet_single(subnets, start):
+def subnet_single(subnets, start, ip):
     start=int(start)
     config = open('/root/3proxy/3proxy.cfg', 'w')
     config.write(head.format(login=login, passwd=passwd))
     for subnet in subnets:
         subnet = ipaddress.ip_network(subnet)
         for addr in subnet:
-            config.write(proxy_string.format(port=start, input=addr, output=addr))
+            config.write(proxy_string.format(port=start, input=ip, output=addr))
             start += 1
     config.close()
     add_autoload(subnet=subnets)
@@ -74,4 +75,4 @@ def add_autoload(subnet='', address=''):
     rc_local.close()
     subprocess.call('chmod +x /etc/rc.local', shell=True)
 
-subnet_single(subnet, startport)
+subnet_single(subnet, startport, inputip)
