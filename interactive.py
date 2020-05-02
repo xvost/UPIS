@@ -62,7 +62,7 @@ def ipv6():
         print('Одна или несколько сетей указаны не верно\n')
         sys.exit(0)
 
-    if subnet_type != '64':
+    if subnet_type != '64' or subnet_type != '48':
         subnet = input('Основные сети через которые будут ходить прокси\n'
                    'без указания размерности\n'
                    'если несколько, то разделитель пробел\n').split(' ')
@@ -79,7 +79,11 @@ def ipv6():
     else:
         subnet = getway_subnet
 
-    count = input('Количество прокси\n')
+    count = input('Количество прокси. Если несколько сетей, то количество на 1 сеть:\n')
+    startport = input('Начальный порт:\n')
+    endport = int(startport) + int(count) * len(subnet)
+    if endport > 65534:
+        print('Конечный порт {} больше 65534'.format(endport))
     login = input('Логин прокси\n')
     passwd = input('Пароль прокси\n')
     rotation = input('Ротация Y|N\n')
@@ -117,6 +121,7 @@ def ipv6():
                    '  vars:\n'
                    '    net_type: {net_type}\n'
                    '    count: {count}\n'
+                   '    start_port: {startport}\n'
                    '    proxy_login: {login}\n'
                    '    proxy_password: {password}\n'
                    '    rotate_type: {rotate_type}\n'
@@ -124,6 +129,7 @@ def ipv6():
                    '    cron_hour: "{hour}"\n'
                    '    cron_minute: "{minute}"').format(net_type=subnet_type,
                                   count=count,
+                                  startport=startport,
                                   login=login,
                                   password=passwd,
                                   rotate=rotation,

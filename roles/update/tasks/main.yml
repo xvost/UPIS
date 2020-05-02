@@ -39,11 +39,12 @@
      - linux-image-4.3.0-040300-generic_4.3.0-040300.201511020949_amd64.deb
    register: update
    when: ansible_kernel is version_compare('4','<')
+   tags: kernel
 
  - name: Reboot to apply new kernel
    reboot:
      reboot_timeout: 120
-   when: update is changed and ansible_kernel |  version ('4','<')
+   when: update is changed and ansible_kernel is version ('4','<')
    tags:
    - kernel
 
