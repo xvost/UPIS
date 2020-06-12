@@ -43,6 +43,7 @@ def ipv6():
                    '  vars:\n'
                    '    net_type: {net_type}\n'
                    '    count: {count}\n'
+                   '    start_port: {startport}\n'
                    '    proxy_login: {login}\n'
                    '    proxy_password: {password}\n'
                    '    rotate_type: {rotate_type}\n'
@@ -50,6 +51,7 @@ def ipv6():
                    '    cron_hour: "{hour}"\n'
                    '    cron_minute: "{minute}"').format(net_type=proxy['nettype'],
                                                          count=proxy['quantityinsubnet'],
+                                                         startport=proxy['startport'],
                                                          login=proxy['login'],
                                                          password=proxy['password'],
                                                          rotate=proxy['rotation'],
