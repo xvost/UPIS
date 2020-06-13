@@ -2,7 +2,7 @@
 
 ## Requirements
 
-Ansible 2.7.0+
+Ansible 2.8.4 (using the latest versions of Ansible, you may get an error when generating the env file)
 
 Python 3.6.0+
 
