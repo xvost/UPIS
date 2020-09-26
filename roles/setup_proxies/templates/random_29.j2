@@ -1,0 +1,31 @@
+{% raw %}
+#!/usr/local/bin/bash
+
+array=( 1 2 3 4 5 6 7 8 9 0 a b c d e f )
+array29=( 0 1 2 3 4 5 6 7 )
+{% endraw %}
+MAXCOUNT={{ count }}
+count=1
+networks=({{ nipv6 }})
+{% raw %}
+rnd_ip_block ()
+{
+    a=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    b=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    c=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    d=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    e=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    f=${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}${array[$RANDOM%16]}
+    j=${array29[$RANDOM%8]}
+    echo $network$j:$a:$b:$c:$d:$e:$f
+}
+
+for net in ${networks[*]}
+    do
+    while [ "$count" -le $MAXCOUNT ]        # Генерация 20 ($MAXCOUNT) случайных чисел.
+    do
+            rnd_ip_block
+            let "count += 1"                # Нарастить счетчик.
+    done
+done
+{% endraw %}

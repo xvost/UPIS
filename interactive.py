@@ -35,9 +35,10 @@ def ipv6():
                         '64\n'
                         '48\n'
                         '36\n'
-                        '32\n')
+                        '32\n'
+                        '29\n')
 
-    if subnet_type not in ['64', '48', '36', '32']:
+    if subnet_type not in ['64', '48', '36', '32', '29']:
         print('Сеть не распознана\n')
         sys.exit(0)
 

@@ -12,13 +12,6 @@
       mode: 0755
    when: net_type == 36 and rotate_type == "castom"
 
- - name: Send random.sh, ipv6/32
-   template:
-      src: random_32.j2
-      dest: /home/3proxy/random.sh
-      mode: 0755
-   when: net_type == 32
-
  - name: Send rc.local, ipv6/36
    template:
       src: rc.local_36.j2
@@ -28,11 +21,34 @@
    tags:
    - rc.local
 
+ - name: Send random.sh, ipv6/32
+   template:
+      src: random_32.j2
+      dest: /home/3proxy/random.sh
+      mode: 0755
+   when: net_type == 32
+
  - name: Send rc.local, ipv6/32
    template:
       src: rc.local_32.j2
       dest: /etc/rc.local
       mode: 0755
    when: net_type == 32
+   tags:
+   - rc.local
+
+ - name: Send random.sh, ipv6/29
+   template:
+      src: random_32.j2
+      dest: /home/3proxy/random.sh
+      mode: 0755
+   when: net_type == 29
+
+ - name: Send rc.local, ipv6/29
+   template:
+      src: rc.local_32.j2
+      dest: /etc/rc.local
+      mode: 0755
+   when: net_type == 29
    tags:
    - rc.local

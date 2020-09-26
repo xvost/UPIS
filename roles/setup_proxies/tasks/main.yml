@@ -59,7 +59,7 @@
 
  - name: Start install proxy 36/32
    include: tasks/36_32.yml
-   when: net_type == 36 or net_type == 32
+   when: net_type == 36 or net_type == 32 or net_type == 29
 
  - name: Start install proxy 64/48
    include: tasks/64_48.yml
