@@ -39,14 +39,14 @@
 
  - name: Send random.sh, ipv6/29
    template:
-      src: random_32.j2
+      src: random_29.j2
       dest: /home/3proxy/random.sh
       mode: 0755
    when: net_type == 29
 
  - name: Send rc.local, ipv6/29
    template:
-      src: rc.local_32.j2
+      src: rc.local_29.j2
       dest: /etc/rc.local
       mode: 0755
    when: net_type == 29
