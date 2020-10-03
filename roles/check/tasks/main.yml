@@ -1,0 +1,12 @@
+ - name: Check proxy
+   uri:
+     url: http://ifconfig.co
+     timeout: 5
+   register: msg
+   environment:
+     http_proxy: http://{{ proxy_login }}:{{ proxy_password }}@{{ ansible_host }}:{{ start_port }}
+   delegate_to: localhost
+   when:
+     input == "one"
+   tags:
+     - check

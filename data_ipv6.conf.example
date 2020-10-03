@@ -4,10 +4,10 @@ password=somestrongpasswd
 startport=30000
 nettype=32
 #totalcount is default
-quantityinsubnet=200
+quantitypersubnet=200
 rotation=no
 #cronstring *,"*/2" hours,minutes
-cronstring=*,"*/2"
+cronstring="*","*/2"
 #simple or custom only for /36
 randomtype=simple
 

@@ -10,6 +10,7 @@ passwd = sys.argv[2]
 subnet = sys.argv[3:][0].split(', ')
 inputip = sys.argv[4]
 startport = sys.argv[5]
+input = sys.argv[6]
 
 print(subnet)
 
@@ -54,6 +55,8 @@ def subnet_single(subnets, start, ip):
     for subnet in subnets:
         subnet = ipaddress.ip_network(subnet)
         for addr in subnet:
+            if input == 'self':
+                ip = addr
             config.write(proxy_string.format(port=start, input=ip, output=addr))
             start += 1
     config.close()

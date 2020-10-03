@@ -50,7 +50,7 @@ def ipv6():
                    '    rotate: {rotate}\n'
                    '    cron_hour: "{hour}"\n'
                    '    cron_minute: "{minute}"').format(net_type=proxy['nettype'],
-                                                         count=proxy['quantityinsubnet'],
+                                                         count=proxy['quantitypersubnet'],
                                                          startport=proxy['startport'],
                                                          login=proxy['login'],
                                                          password=proxy['password'],
@@ -66,15 +66,16 @@ def ipv4():
     import configobj
 
     config = configobj.ConfigObj('data_ipv4.conf')
-
     proxy = config['Proxy']
     servers = config['Servers']
 
     env = open('./inventory/env', 'w')
-    env.write('proxyv4:\n  hosts:\n')
+    env.write('proxyv4:\n  hosts:')
 
     for server in servers:
+
         server = servers[server]
+
         if isinstance(server['proxynetwork'], list):
             network = ', '.join(server['proxynetwork'])
         else:
@@ -89,13 +90,16 @@ def ipv4():
                                                        user_passwd=server['password'],
                                                        subnet=network))
 
+
     env.write(str(('\n'
                    '  vars:\n'
                    '    count: {count}\n'
                    '    start_port: {port}\n'
                    '    proxy_login: {login}\n'
-                   '    proxy_password: {password}').format(count=proxy['quantityinsubnet'],
+                   '    proxy_password: {password}\n'
+                   '    input: {input}').format(count=proxy['quantitypersubnet'],
                                                             port=proxy['startport'],
                                                             login=proxy['login'],
-                                                            password=proxy['password'])))
+                                                            password=proxy['password'],
+                                                            input=proxy['input'])))
     env.close()

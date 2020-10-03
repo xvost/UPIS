@@ -1,8 +1,9 @@
 [Proxy]
 login=proxy
 password=somestrongpasswd
-startport=30000
-quantityinsubnet=200
+startport=15000
+quantitypersubnet=100
+input=self #self/one
 
 [Servers]
     #example for 1 subnet
