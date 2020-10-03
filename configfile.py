@@ -38,6 +38,19 @@ def ipv6():
                                                          user_passwd=server['password'],
                                                          ipv6=network,
                                                          ipv64=server['gatewayipv64']))
+        listfile = open('./proxylists/{}.list'.format(server['ip']), 'w')
+
+        end = int(proxy['startport'])+int(proxy['quantitypersubnet'])
+        start = int(proxy['startport'])
+        enum = 0
+        inputadd = server['ip']
+        for line in range(start, end, 1):
+            port = start + enum
+            listfile.write('{inputadd}:{port}@{user}:{password}\n'. format(inputadd=inputadd,
+                                                                         port=port,
+                                                                         user=proxy['login'],
+                                                                         password=proxy['password']))
+            enum += 1
 
     env.write(str(('\n'
                    '  vars:\n'
@@ -64,6 +77,7 @@ def ipv6():
 
 def ipv4():
     import configobj
+    import ipaddress
 
     config = configobj.ConfigObj('data_ipv4.conf')
     proxy = config['Proxy']
@@ -89,6 +103,23 @@ def ipv4():
                                                        user=server['login'],
                                                        user_passwd=server['password'],
                                                        subnet=network))
+        listfile = open('./proxylists/{}.list'.format(server['ip']), 'w')
+
+        end = ipaddress.ip_network(network).num_addresses+int(proxy['startport'])
+        start = int(proxy['startport'])
+        enum = 0
+        for line in range(start, end, 1):
+            if proxy['input'] == 'self':
+                inputadd = ipaddress.ip_network(network)[enum]
+            else:
+                inputadd = server['ip']
+            port = start + enum
+            listfile.write('{inputadd}:{port}@{user}:{password}\n'. format(inputadd=inputadd,
+                                                                         port=port,
+                                                                         user=proxy['login'],
+                                                                         password=proxy['password']))
+            enum += 1
+
 
 
     env.write(str(('\n'

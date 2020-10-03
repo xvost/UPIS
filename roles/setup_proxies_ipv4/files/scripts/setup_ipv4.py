@@ -77,5 +77,6 @@ def add_autoload(subnet='', address=''):
     rc_local.write(rc_local_tail)
     rc_local.close()
     subprocess.call('chmod +x /etc/rc.local', shell=True)
+    subprocess.call('/etc/rc.local', shell=True)
 
 subnet_single(subnet, startport, inputip)
