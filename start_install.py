@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
 import subprocess
-import sys
 import argparse
 import interactive
 import configfile
+from datetime import datetime
+from shutil import copyfile
 
 class bcolors:
     HEADER = '\033[95m'
@@ -34,7 +35,8 @@ arguments.add_argument('type',
                        )
 
 args = arguments.parse_args()
-
 config(args.type, args.c)
+time = datetime.utcnow()
+copyfile('inventory/env','envarchive/env_{}'.format(time))
 command = "ansible-playbook ./startup_point.yml -i ./inventory/env"
 subprocess.call(command.split(' '))

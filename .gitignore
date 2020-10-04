@@ -3,3 +3,4 @@ inventory/env
 *.conf
 .idea
 proxylists/*
+envarchive/*
