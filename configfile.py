@@ -26,51 +26,52 @@ def ipv6():
             network = ', '.join(server['proxynetwork'])
         else:
             network = server['proxynetwork']
-        env.write(str('\n'
-                      '    server_{ip}:\n'
-                      '      ansible_host: {ip}\n'
-                      '      ansible_ssh_user: {user}\n'
-                      '      ansible_ssh_pass: {user_passwd}\n'
-                      '      ipv4: {ip}\n'
-                      '      nipv6: {ipv6}\n'
-                      '      nipv664: {ipv64}\n').format(ip=server['ip'],
-                                                         user=server['login'],
-                                                         user_passwd=server['password'],
-                                                         ipv6=network,
-                                                         ipv64=server['gatewayipv64']))
+        ip = server['ip']
+        user = server['login']
+        user_passwd = server['password']
+        ipv6 = network
+        ipv64 = server['gatewayipv64']
+        env.write(str(f'\n'
+                      f'    server_{ip}:\n'
+                      f'      ansible_host: {ip}\n'
+                      f'      ansible_ssh_user: {user}\n'
+                      f'      ansible_ssh_pass: {user_passwd}\n'
+                      f'      ipv4: {ip}\n'
+                      f'      nipv6: {ipv6}\n'
+                      f'      nipv664: {ipv64}\n'))
         listfile = open('./proxylists/{}.list'.format(server['ip']), 'w')
-
         end = int(proxy['startport'])+int(proxy['quantitypersubnet'])
         start = int(proxy['startport'])
         enum = 0
         inputadd = server['ip']
         for line in range(start, end, 1):
             port = start + enum
-            listfile.write('{inputadd}:{port}@{user}:{password}\n'. format(inputadd=inputadd,
-                                                                         port=port,
-                                                                         user=proxy['login'],
-                                                                         password=proxy['password']))
+            inputadd = inputadd
+            port = port
+            user = proxy['login']
+            password = proxy['password']
+            listfile.write(f'{inputadd}:{port}@{user}:{password}\n')
             enum += 1
-
-    env.write(str(('\n'
-                   '  vars:\n'
-                   '    net_type: {net_type}\n'
-                   '    count: {count}\n'
-                   '    start_port: {startport}\n'
-                   '    proxy_login: {login}\n'
-                   '    proxy_password: {password}\n'
-                   '    rotate_type: {rotate_type}\n'
-                   '    rotate: {rotate}\n'
-                   '    cron_hour: "{hour}"\n'
-                   '    cron_minute: "{minute}"').format(net_type=proxy['nettype'],
-                                                         count=proxy['quantitypersubnet'],
-                                                         startport=proxy['startport'],
-                                                         login=proxy['login'],
-                                                         password=proxy['password'],
-                                                         rotate=proxy['rotation'],
-                                                         rotate_type=proxy['randomtype'],
-                                                         hour=hour,
-                                                         minute=minute)))
+    net_type = proxy['nettype'],
+    count = proxy['quantitypersubnet'],
+    startport = proxy['startport'],
+    login = proxy['login'],
+    password = proxy['password'],
+    rotate = proxy['rotation'],
+    rotate_type = proxy['randomtype'],
+    hour = hour,
+    minute = minute
+    env.write(str(f'\n'
+                  f'  vars:\n'
+                  f'    net_type: {net_type}\n'
+                  f'    count: {count}\n'
+                  f'    start_port: {startport}\n'
+                  f'    proxy_login: {login}\n'
+                  f'    proxy_password: {password}\n'
+                  f'    rotate_type: {rotate_type}\n'
+                  f'    rotate: {rotate}\n'
+                  f'    cron_hour: "{hour}"\n'
+                  f'    cron_minute: "{minute}"'))
 
     env.close()
 
@@ -94,15 +95,15 @@ def ipv4():
             network = ', '.join(server['proxynetwork'])
         else:
             network = server['proxynetwork']
-        env.write(str('\n'
-                      '    server_{ip}:\n'
-                      '      ansible_host: {ip}\n'
-                      '      ansible_ssh_user: {user}\n'
-                      '      ansible_ssh_pass: {user_passwd}\n'
-                      '      subnet: {subnet}').format(ip=server['ip'],
-                                                       user=server['login'],
-                                                       user_passwd=server['password'],
-                                                       subnet=network))
+        ip = server['ip']
+        user = server['login']
+        user_passwd = server['password']
+        env.write(str(f'\n'
+                      f'    server_{ip}:\n'
+                      f'      ansible_host: {ip}\n'
+                      f'      ansible_ssh_user: {user}\n'
+                      f'      ansible_ssh_pass: {user_passwd}\n'
+                      f'      subnet: {network}'))
         listfile = open('./proxylists/{}.list'.format(server['ip']), 'w')
 
         end = ipaddress.ip_network(network).num_addresses+int(proxy['startport'])
@@ -114,23 +115,23 @@ def ipv4():
             else:
                 inputadd = server['ip']
             port = start + enum
-            listfile.write('{inputadd}:{port}@{user}:{password}\n'. format(inputadd=inputadd,
-                                                                         port=port,
-                                                                         user=proxy['login'],
-                                                                         password=proxy['password']))
+            inputadd = inputadd
+            port = port
+            user = proxy['login']
+            password = proxy['password']
+            listfile.write(f'{inputadd}:{port}@{user}:{password}\n')
             enum += 1
 
-
-
-    env.write(str(('\n'
-                   '  vars:\n'
-                   '    count: {count}\n'
-                   '    start_port: {port}\n'
-                   '    proxy_login: {login}\n'
-                   '    proxy_password: {password}\n'
-                   '    input: {input}').format(count=proxy['quantitypersubnet'],
-                                                            port=proxy['startport'],
-                                                            login=proxy['login'],
-                                                            password=proxy['password'],
-                                                            input=proxy['input'])))
+    count = proxy['quantitypersubnet']
+    port = proxy['startport']
+    login = proxy['login']
+    password = proxy['password']
+    input = proxy['input']
+    env.write(str(f'\n'
+                  f'  vars:\n'
+                  f'    count: {count}\n'
+                  f'    start_port: {port}\n'
+                  f'    proxy_login: {login}\n'
+                  f'    proxy_password: {password}\n'
+                  f'    input: {input}'))
     env.close()

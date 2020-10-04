@@ -1,11 +1,30 @@
 import sys
 
-def start(test):
-    if test == 'ipv4':
+def start(type):
+    if type == 'ipv4':
         print('Sorry Mario, but you need config file method')
         sys.exit(0)
     else:
         ipv6()
+
+def ipv6_new():
+    import ipaddress
+    greetings = \
+'''\nПривет!
+Скрипт умеет настроить ipv6 прокси:
+64, 48, 36, 32 - сети
+Одиночные сервера и группы
+Ограничения:
+- только debian8
+- одинаковые логин/пароль для всех прокси (на всех серверах при массовой настройке)
+- Скрипт инсталяции верит в то что вы укажите все данные в верном порядке и без ошибок
+
+Возможности:
+- ротация
+- настройка systemd сервиса
+- ndppd для работы сетей /64 и /48 с параметром non local bind
+Начать настройку? (y/N)'''
+
 
 def ipv6():
     import ipaddress
@@ -139,3 +158,6 @@ def ipv6():
                                   minute=cron.split(' ')[0])))
 
     env.close()
+
+if __name__ == "__main__":
+    ipv6_new()

@@ -2,10 +2,11 @@
 
 import subprocess
 import argparse
-import interactive
-import configfile
 from datetime import datetime
 from shutil import copyfile
+
+import interactive
+import configfile
 
 class bcolors:
     HEADER = '\033[95m'
@@ -17,12 +18,6 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-def config(ip, type):
-    if not type and ip == 'input':
-        ip = input(bcolors.OKGREEN + 'Тип сетей для настройки (ipv4|ipv6):\n'+bcolors.ENDC)
-    start_type = [interactive, configfile][type]
-    start_type.start(ip)
-
 
 arguments = argparse.ArgumentParser()
 start_type = arguments.add_mutually_exclusive_group()
@@ -33,6 +28,13 @@ arguments.add_argument('type',
                        help='Type of subnet, default {ipv6}',
                        default='ipv6',
                        )
+
+
+def config(ip, type):
+    if not type and ip == 'input':
+        ip = input(bcolors.OKGREEN + 'Тип сетей для настройки (ipv4|ipv6):\n'+bcolors.ENDC)
+    start_type = [interactive, configfile][type]
+    start_type.start(ip)
 
 args = arguments.parse_args()
 config(args.type, args.c)
