@@ -40,7 +40,7 @@ def ipv6():
                       f'      nipv6: {ipv6}\n'
                       f'      nipv664: {ipv64}\n'))
         listfile = open('./proxylists/{}.list'.format(server['ip']), 'w')
-        end = int(proxy['startport'])+int(proxy['quantitypersubnet'])
+        end = int(proxy['startport'])+int(proxy['quantityinsubnet'])
         start = int(proxy['startport'])
         enum = 0
         inputadd = server['ip']
@@ -52,14 +52,14 @@ def ipv6():
             password = proxy['password']
             listfile.write(f'{inputadd}:{port}@{user}:{password}\n')
             enum += 1
-    net_type = proxy['nettype'],
-    count = proxy['quantitypersubnet'],
-    startport = proxy['startport'],
-    login = proxy['login'],
-    password = proxy['password'],
-    rotate = proxy['rotation'],
-    rotate_type = proxy['randomtype'],
-    hour = hour,
+    net_type = proxy['nettype']
+    count = proxy['quantityinsubnet']
+    startport = proxy['startport']
+    login = proxy['login']
+    password = proxy['password']
+    rotate = proxy['rotation']
+    rotate_type = proxy['randomtype']
+    hour = hour
     minute = minute
     env.write(str(f'\n'
                   f'  vars:\n'
