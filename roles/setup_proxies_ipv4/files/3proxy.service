@@ -1,0 +1,23 @@
+[Unit]
+Description=3proxy
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/tmp/3proxy.pid
+WorkingDirectory=/root/3proxy
+User=root
+Group=root
+LimitNOFILE=65536
+LimitNPROC=65536
+LimitSIGPENDING=65536
+ExecStart=/root/3proxy/3proxy /root/3proxy/3proxy.cfg
+ExecStop=/usr/bin/killall 3proxy
+ExecReload=/usr/bin/killall 3proxy && /root/3proxy/3proxy /root/3proxy/3proxy.cfg
+TimeoutSec=1
+RemainAfterExit=no
+Restart=on-failure
+RestartSec=3s
+
+[Install]
+WantedBy=multi-user.target

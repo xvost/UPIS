@@ -7,7 +7,6 @@
      http_proxy: http://{{ proxy_login }}:{{ proxy_password }}@{{ ansible_host }}:{{ start_port }}
    delegate_to: localhost
    when:
-     - input == "one"
-     - input is undefined
+     - input == "one" or input is undefined
    tags:
      - check

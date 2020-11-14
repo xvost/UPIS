@@ -23,6 +23,7 @@ nscache 65536
 timeouts 1 5 30 60 180 1800 15 60
 setgid 65534
 setuid 65534
+pidfile /tmp/3proxy.pid
 flush
 auth strong
 users {login}:CL:{passwd}

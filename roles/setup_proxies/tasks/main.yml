@@ -108,6 +108,7 @@
      src: 3proxy.service
      dest: /etc/systemd/system/3proxy.service
      mode: 0744
+   tags: systemd
 
  - name: start 3proxy.service
    systemd: state=restarted name=3proxy daemon_reload=yes enabled=yes
