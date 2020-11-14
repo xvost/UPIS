@@ -95,3 +95,14 @@
 
  - name: Create 3proxy config
    shell: /root/setup_ipv4.py '{{ proxy_login }}' '{{ proxy_password }}' '{{ subnet }}' '{{ ansible_host }}' '{{ start_port }}' '{{ input }}'
+
+ - name: Send systemd .service file
+   copy:
+     src: 3proxy.service
+     dest: /etc/systemd/system/3proxy.service
+     mode: 0744
+   tags: systemd
+
+ - name: start 3proxy.service
+   systemd: state=restarted name=3proxy daemon_reload=yes enabled=yes
+   tags: systemd
