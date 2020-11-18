@@ -23,16 +23,34 @@
      name: vm.max_map_count
      value: 95120
      sysctl_set: yes
+   tags:
+     - sysctl
 
  - sysctl:
      name: kernel.pid_max
      value: 95120
      sysctl_set: yes
+   tags:
+     - sysctl
 
  - sysctl:
      name: kernel.threads-max
      value: 240260
      sysctl_set: yes
+
+ - sysctl:
+     name: net.ipv4.tcp_tw_reuse
+     value: 1
+     sysctl_set: yes
+   tags:
+     - sysctl
+
+ - sysctl:
+     name: net.ipv4.tcp_fin_timeout
+     value: 15
+     sysctl_set: yes
+   tags:
+     - sysctl
 
  - name: Get git repo 3proxy
    git:
