@@ -52,5 +52,5 @@ config(args.type, args.c)
 time = datetime.utcnow()
 copyfile('inventory/env',f'envarchive/env_{time}')
 
-command = f"ansible-playbook ./startup_point.yml -i ./inventory/env {tagsstring}"
+command = f"ansible-playbook ./startup_point.yml -i ./inventory/env{tagsstring}"
 subprocess.call(command.split(' '))
