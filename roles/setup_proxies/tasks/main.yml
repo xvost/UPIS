@@ -1,34 +1,35 @@
  - name: Set up sysctl values
    sysctl:
     name: net.ipv6.conf.eth0.proxy_ndp
-    value: 1
+    value: '1'
     sysctl_set: yes
    tags:
      - sysctl
 
  - sysctl:
     name: net.ipv6.conf.all.proxy_ndp
-    value: 1
+    value: '1'
     sysctl_set: yes
    tags:
      - sysctl
 
  - sysctl:
     name: net.ipv6.conf.default.forwarding
-    value: 1
+    value: '1'
     sysctl_set: yes
    tags:
      - sysctl
 
  - sysctl:
     name: net.ipv6.conf.all.forwarding
+    value: '1'
     sysctl_set: yes
    tags:
      - sysctl
 
  - sysctl:
     name: net.ipv6.ip_nonlocal_bind
-    value: 1
+    value: '1'
     sysctl_set: yes
    tags:
      - sysctl
@@ -56,14 +57,14 @@
 
  - sysctl:
      name: net.ipv4.tcp_tw_reuse
-     value: 1
+     value: '1'
      sysctl_set: yes
    tags:
      - sysctl
 
  - sysctl:
      name: net.ipv4.tcp_fin_timeout
-     value: 15
+     value: '15'
      sysctl_set: yes
    tags:
      - sysctl
