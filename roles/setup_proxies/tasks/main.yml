@@ -1,4 +1,4 @@
- - name: Set up sysctl values
+ - name: Set up sysctl net.ipv6.conf.eth0.proxy_ndp
    sysctl:
     name: net.ipv6.conf.eth0.proxy_ndp
     value: '1'
@@ -6,14 +6,16 @@
    tags:
      - sysctl
 
- - sysctl:
+ - name: Set up sysctl net.ipv6.conf.all.proxy_ndp
+   sysctl:
     name: net.ipv6.conf.all.proxy_ndp
     value: '1'
     sysctl_set: yes
    tags:
      - sysctl
 
- - sysctl:
+ - name: Set up sysctl net.ipv6.conf.default.forwarding
+   sysctl:
     name: net.ipv6.conf.default.forwarding
     value: '1'
     sysctl_set: yes
@@ -75,6 +77,13 @@
      mode: 0755
    with_items:
      - 'ndppd'
+
+ - name: Modify nofile soft limit for the user nobody
+   pam_limits:
+     domain: nobody
+     limit_type: soft
+     limit_item: nofile
+     value: unlimited
 
  - name: Copy binary ndppd
    copy:
@@ -141,6 +150,6 @@
      mode: 0744
    tags: systemd
 
- - name: start 3proxy.service
+ - name: Start 3proxy.service
    systemd: state=restarted name=3proxy daemon_reload=yes enabled=yes
    tags: systemd

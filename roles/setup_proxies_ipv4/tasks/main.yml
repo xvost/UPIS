@@ -56,6 +56,7 @@
    git:
      repo: https://github.com/z3APA3A/3proxy.git
      dest: /root/3proxy
+     version: master
 
  - name: Make 3proxy
    shell: cd /root/3proxy && make -f Makefile.Linux
