@@ -160,4 +160,4 @@ def ipv6():
     env.close()
 
 if __name__ == "__main__":
-    ipv6_new()
+    ipv6()

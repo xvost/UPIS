@@ -6,8 +6,8 @@ import argparse
 from datetime import datetime
 from shutil import copyfile
 
-import interactive
 import configfile
+import cli
 
 class bcolors:
     HEADER = '\033[95m'
@@ -30,10 +30,9 @@ ip_type.add_argument('-n', choices=['ipv4', 'ipv6'], default='ipv6',
 arguments.add_argument('-l', action='store_true', dest="list", help='List tags', required=False)
 arguments.add_argument('-t', nargs='+', dest="tags", help='Use tags list: -t=sysctl,dns,config and etc.', required=False)
 
+
 def config(ip, type):
-    if not type and ip == 'input':
-        ip = input(bcolors.OKGREEN + 'Тип сетей для настройки (ipv4|ipv6):\n'+bcolors.ENDC)
-    start_type = [interactive, configfile][type]
+    start_type = [cli, configfile][type]
     start_type.start(ip)
 
 args = arguments.parse_args()
@@ -50,7 +49,7 @@ if args.tags:
 
 config(args.type, args.c)
 time = datetime.utcnow()
-copyfile('inventory/env',f'envarchive/env_{time}')
+copyfile('inventory/env', f'envarchive/env_{time}')
 
 command = f"ansible-playbook ./startup_point.yml -i ./inventory/env{tagsstring}"
 subprocess.call(command.split(' '))
