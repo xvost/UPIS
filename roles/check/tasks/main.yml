@@ -6,6 +6,8 @@
    environment:
      http_proxy: http://{{ proxy_login }}:{{ proxy_password }}@{{ ansible_host }}:{{ start_port }}
    delegate_to: localhost
+   retries: 2
+   delay: 10
    when:
      - input == "one" or input is undefined
    tags:

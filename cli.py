@@ -160,7 +160,7 @@ def ipv6():
         }
     ]
 
-    print(greetings.encode('utf-8'),)
+    print(greetings)
     answers = prompt(agree)
     if not answers.get("agree"):
         sys.exit(0)

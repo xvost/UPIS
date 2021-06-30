@@ -2,4 +2,4 @@ configobj==5.0.6
 npyscreen==4.10.5
 six==1.15.0
 PyInquirer~=1.0.3
-ansible==2.9
+ansible
