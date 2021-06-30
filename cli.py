@@ -241,5 +241,19 @@ def ipv6():
 
     env.close()
 
+    listfile = open('./proxylists/{}.list'.format(server_ip), 'w')
+    end = int(startport) + int(count)
+    startport = int(startport)
+    enum = 0
+    inputadd = server_ip
+    for line in range(startport, end, 1):
+        port = startport + enum
+        inputadd = inputadd
+        port = port
+        user = login
+        password = passwd
+        listfile.write(f'{inputadd}:{port}@{user}:{password}\n')
+        enum += 1
+
 if __name__ == "__main__":
     ipv6()
