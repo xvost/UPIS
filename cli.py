@@ -241,7 +241,7 @@ def ipv6():
 
     env.close()
 
-    listfile = open('./proxylists/{}.list'.format(server_ip), 'w')
+    listfile = open('./proxylists/{}.list'.format(server_ip[0]), 'w')
     end = int(startport) + int(count)
     startport = int(startport)
     enum = 0
