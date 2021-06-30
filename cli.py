@@ -245,7 +245,7 @@ def ipv6():
     end = int(startport) + int(count)
     startport = int(startport)
     enum = 0
-    inputadd = server_ip
+    inputadd = server_ip[0]
     for line in range(startport, end, 1):
         port = startport + enum
         inputadd = inputadd
