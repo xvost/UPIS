@@ -6,3 +6,4 @@ inventory/env*
 proxylists/*
 envarchive/*
 venv/
+__*
