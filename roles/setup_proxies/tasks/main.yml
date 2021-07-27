@@ -1,74 +1,9 @@
- - name: Set up sysctl net.ipv6.conf.eth0.proxy_ndp
+ - name: Set sysctl values
    sysctl:
-    name: net.ipv6.conf.eth0.proxy_ndp
-    value: '1'
-    sysctl_set: yes
-   tags:
-     - sysctl
-
- - name: Set up sysctl net.ipv6.conf.all.proxy_ndp
-   sysctl:
-    name: net.ipv6.conf.all.proxy_ndp
-    value: '1'
-    sysctl_set: yes
-   tags:
-     - sysctl
-
- - name: Set up sysctl net.ipv6.conf.default.forwarding
-   sysctl:
-    name: net.ipv6.conf.default.forwarding
-    value: '1'
-    sysctl_set: yes
-   tags:
-     - sysctl
- - name: Set up sysctl net.ipv6.conf.all.forwarding
-   sysctl:
-    name: net.ipv6.conf.all.forwarding
-    value: '1'
-    sysctl_set: yes
-   tags:
-     - sysctl
-
- - name: Set up sysctl net.ipv6.ip_nonlocal_bind
-   sysctl:
-    name: net.ipv6.ip_nonlocal_bind
-    value: '1'
-    sysctl_set: yes
-   tags:
-     - sysctl
-
- - sysctl:
-     name: vm.max_map_count
-     value: 95120
+     name: "{{ item.key }}"
+     value: "{{ item.value }}"
      sysctl_set: yes
-   tags:
-     - sysctl
-
- - sysctl:
-     name: kernel.pid_max
-     value: 95120
-     sysctl_set: yes
-   tags:
-     - sysctl
-
- - sysctl:
-     name: kernel.threads-max
-     value: 240260
-     sysctl_set: yes
-   tags:
-     - sysctl
-
- - sysctl:
-     name: net.ipv4.tcp_tw_reuse
-     value: '1'
-     sysctl_set: yes
-   tags:
-     - sysctl
-
- - sysctl:
-     name: net.ipv4.tcp_fin_timeout
-     value: '15'
-     sysctl_set: yes
+   loop: "{{ lookup('dict', sysctl.ipv6) }}"
    tags:
      - sysctl
 

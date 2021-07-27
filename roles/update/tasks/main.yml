@@ -4,17 +4,8 @@
 
  - name: Install packages
    apt:
-     name: "{{ packages }}"
+     name: "{{ packages.all }}"
      update_cache: yes
-   vars:
-     packages:
-     - mc
-     - bc
-     - bind9
-     - nscd
-     - git
-     - make
-     - gcc
    tags:
    - packages
 
@@ -48,33 +39,20 @@
    tags:
    - kernel
 
- - name: Get git repo 3proxy
+- name: Get git repo 3proxy
    git:
      repo: https://github.com/z3APA3A/3proxy.git
-     dest: /root/3proxy
-     force: yes
-   register: getgit
+     dest: "{{ MAKE_DIR }}/3proxy"
+     version: master
 
  - name: Make 3proxy
-   shell: cd /root/3proxy && make -f Makefile.Linux
+   shell: "cd {{ MAKE_DIR }}/3proxy && make -f Makefile.Linux"
    args:
      executable: /bin/bash
    ignore_errors: true
-   when: getgit is changed
-
- - name: mkdir /home/3proxy
-   file:
-     path: '/home/{{ item }}'
-     state: directory
-     mode: 0755
-     owner: nobody
-     group: nogroup
-   with_items:
-     - '3proxy'
 
  - name: Copy 3proxy binary
-   shell: cp -f /root/3proxy/bin/3proxy /home/3proxy/3proxy
-   when: getgit is changed
+   shell: "cp -f {{ MAKE_DIR }}/3proxy/bin/3proxy {{ PROXY_DIR }}/3proxy/3proxy"
 
  - name: Change bind's listening ips
    replace:
@@ -114,3 +92,12 @@
      state: restarted
    tags:
    - dns
+
+ - name: Set sysctl values
+   sysctl:
+     name: "{{ item.key }}"
+     value: "{{ item.value }}"
+     sysctl_set: yes
+   loop: "{{ lookup('dict', sysctl.all) }}"
+   tags:
+     - sysctl

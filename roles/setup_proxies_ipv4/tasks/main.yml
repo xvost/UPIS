@@ -6,7 +6,7 @@
    apt:
      name: "{{ items }}"
      update_cache: yes
-   with_items: {{ apt-packages.ipv4 }}
+   with_items: "{{ apt-packages.ipv4 }}"
    tags:
    - packages
 
@@ -14,7 +14,7 @@
    pip:
      name: "{{ item }}"
      executable: pip3
-   with_items: {{ pip-packages.ipv4 }}
+   with_items: "{{ pip-packages.ipv4 }}"
 
  - name: Set sysctl values
    sysctl:
@@ -24,60 +24,6 @@
    loop: "{{ lookup('dict', sysctl.ipv4) }}"
    tags:
      - sysctl
-
- - name: Get git repo 3proxy
-   git:
-     repo: https://github.com/z3APA3A/3proxy.git
-     dest: "{{ MAKE_DIR }}/3proxy"
-     version: master
-
- - name: Make 3proxy
-   shell: "cd {{ MAKE_DIR }}/3proxy && make -f Makefile.Linux"
-   args:
-     executable: /bin/bash
-   ignore_errors: true
-
- - name: Copy 3proxy binary
-   shell: "cp -f {{ MAKE_DIR }}/3proxy/bin/3proxy {{ PROXY_DIR }}/3proxy/3proxy"
-
- - name: Change bind's listening ips
-   replace:
-     path: /etc/bind/named.conf.options
-     regexp: 'listen-on-v6'
-     replace: 'listen-on'
-   tags:
-   - dns
-
- - name: Change bind's listening ips
-   replace:
-     path: /etc/bind/named.conf.options
-     regexp: 'any'
-     replace: '127.0.0.1'
-   tags:
-   - dns
-
- - name: Change nameservers
-   replace:
-     path: /etc/network/interfaces
-     regexp: '8.8.8.8'
-     replace: '127.0.0.1'
-   tags:
-     - dns
-
- - name: Copy resolv.conf
-   copy:
-     src: resolv.conf
-     dest: /etc/resolv.conf
-     mode: 0744
-   tags:
-   - dns
-
- - name: Restart bind9 service
-   service:
-     name: bind9
-     state: restarted
-   tags:
-   - dns
 
  - name: Copy script
    copy:

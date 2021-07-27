@@ -6,5 +6,6 @@
    - check
  - hosts: proxyv4
    roles:
+   - update
    - setup_proxies_ipv4
    - check
