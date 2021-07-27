@@ -39,7 +39,7 @@
    tags:
    - kernel
 
-- name: Get git repo 3proxy
+ - name: Get git repo 3proxy
    git:
      repo: https://github.com/z3APA3A/3proxy.git
      dest: "{{ MAKE_DIR }}/3proxy"
