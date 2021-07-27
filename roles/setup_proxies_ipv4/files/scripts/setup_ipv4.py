@@ -2,6 +2,7 @@
 
 import subprocess
 import ipaddress
+import configfile
 import os
 import sys
 
@@ -30,27 +31,14 @@ users {login}:CL:{passwd}
 allow {login}
 '''
 
-rc_local_head = '''#!/bin/bash
-
-ulimit -n 600000
-ulimit -u 600000
-
-'''
-
-rc_local_tail ='''
-sleep 5
-
-/root/3proxy/3proxy /root/3proxy/3proxy.cfg
-
-exit 0
-'''
-
+rc_local_head = '#!/bin/bash'
+rc_local_tail = 'exit 0'
 proxy_string = 'proxy -s0 -n -a -p{port} -i{input} -e{output}\n'
 rc_local = '/sbin/ip addr add {ip} dev eth0 \n'
 
 
 def subnet_single(subnets, start, ip):
-    start=int(start)
+    start = int(start)
     config = open('/root/3proxy/3proxy.cfg', 'w')
     config.write(head.format(login=login, passwd=passwd))
     for subnet in subnets:

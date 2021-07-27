@@ -21,15 +21,16 @@
     sysctl_set: yes
    tags:
      - sysctl
-
- - sysctl:
+ - name: Set up sysctl net.ipv6.conf.all.forwarding
+   sysctl:
     name: net.ipv6.conf.all.forwarding
     value: '1'
     sysctl_set: yes
    tags:
      - sysctl
 
- - sysctl:
+ - name: Set up sysctl net.ipv6.ip_nonlocal_bind
+   sysctl:
     name: net.ipv6.ip_nonlocal_bind
     value: '1'
     sysctl_set: yes

@@ -1,3 +1,6 @@
+import sys
+
+
 def start(subnet_type):
     if subnet_type == 'ipv4':
         ipv4()
@@ -7,16 +10,19 @@ def start(subnet_type):
 
 def ipv6():
     import configobj
-
-    config = configobj.ConfigObj('data_ipv6.conf')
-
-    proxy = config['Proxy']
-    servers = config['Servers']
-
-    cron = proxy['cronstring']
-    hour = cron[0]
-    minute = cron[1]
-
+    try:
+        config = configobj.ConfigObj('data_ipv6.conf')
+        proxy = config['Proxy']
+        servers = config['Servers']
+        cron = proxy['cronstring']
+        hour = cron[0]
+        minute = cron[1]
+    except KeyError as key:
+        print("Не корректный конфиг файл или он отсуствует")
+        sys.exit(1)
+    except Exception as e:
+        print("Что-то пошло не так")
+        sys.exit(1)
     env = open('./inventory/env', 'w')
     env.write('proxyv6:\n  hosts:\n')
 
@@ -79,11 +85,16 @@ def ipv6():
 def ipv4():
     import configobj
     import ipaddress
-
-    config = configobj.ConfigObj('data_ipv4.conf')
-    proxy = config['Proxy']
-    servers = config['Servers']
-
+    try:
+        config = configobj.ConfigObj('data_ipv4.conf')
+        proxy = config['Proxy']
+        servers = config['Servers']
+    except KeyError as key:
+        print("Не корректный конфиг файл или он отсуствует")
+        sys.exit(1)
+    except Exception as e:
+        print("Что-то пошло не так")
+        sys.exit(1)
     env = open('./inventory/env', 'w')
     env.write('proxyv4:\n  hosts:')
 

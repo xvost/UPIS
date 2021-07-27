@@ -4,68 +4,41 @@
 
  - name: Install packages
    apt:
-     name: "{{ packages }}"
+     name: "{{ items }}"
      update_cache: yes
-   vars:
-     packages:
-     - mc
-     - bc
-     - bind9
-     - nscd
-     - git
-     - make
-     - gcc
-     - python3
+   with_items: {{ apt-packages.ipv4 }}
    tags:
    - packages
 
- - sysctl:
-     name: vm.max_map_count
-     value: 95120
-     sysctl_set: yes
-   tags:
-     - sysctl
+ - name: Install pip3 packages
+   pip:
+     name: "{{ item }}"
+     executable: pip3
+   with_items: {{ pip-packages.ipv4 }}
 
- - sysctl:
-     name: kernel.pid_max
-     value: 95120
+ - name: Set sysctl values
+   sysctl:
+     name: "{{ item.key }}"
+     value: "{{ item.value }}"
      sysctl_set: yes
-   tags:
-     - sysctl
-
- - sysctl:
-     name: kernel.threads-max
-     value: 240260
-     sysctl_set: yes
-
- - sysctl:
-     name: net.ipv4.tcp_tw_reuse
-     value: 1
-     sysctl_set: yes
-   tags:
-     - sysctl
-
- - sysctl:
-     name: net.ipv4.tcp_fin_timeout
-     value: 15
-     sysctl_set: yes
+   loop: "{{ lookup('dict', sysctl.ipv4) }}"
    tags:
      - sysctl
 
  - name: Get git repo 3proxy
    git:
      repo: https://github.com/z3APA3A/3proxy.git
-     dest: /root/3proxy
+     dest: "{{ MAKE_DIR }}/3proxy"
      version: master
 
  - name: Make 3proxy
-   shell: cd /root/3proxy && make -f Makefile.Linux
+   shell: "cd {{ MAKE_DIR }}/3proxy && make -f Makefile.Linux"
    args:
      executable: /bin/bash
    ignore_errors: true
 
  - name: Copy 3proxy binary
-   shell: cp -f /root/3proxy/bin/3proxy /root/3proxy/3proxy
+   shell: "cp -f {{ MAKE_DIR }}/3proxy/bin/3proxy {{ PROXY_DIR }}/3proxy/3proxy"
 
  - name: Change bind's listening ips
    replace:
@@ -109,14 +82,20 @@
  - name: Copy script
    copy:
      src: scripts/setup_ipv4.py
-     dest: /root/setup_ipv4.py
+     dest: "{{ PROXY_DIR }}/setup_ipv4.py"
      mode: 0744
 
+ - name: Send config file
+   template:
+     src: config.ini.j2
+     dest: "{{ PROXY_DIR }}/config.ini"
+     mode: 0644
+
  - name: Create 3proxy config
-   shell: /root/setup_ipv4.py '{{ proxy_login }}' '{{ proxy_password }}' '{{ subnet }}' '{{ ansible_host }}' '{{ start_port }}' '{{ input }}'
+   shell: "{{ PROXY_DIR }}/setup_ipv4.py ./config.ini"
 
  - name: Send systemd .service file
-   copy:
+   template:
      src: 3proxy.service
      dest: /etc/systemd/system/3proxy.service
      mode: 0744
