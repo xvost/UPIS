@@ -16,6 +16,6 @@
  - name: Send proxy list
    copy:
      src: "proxylists/{{ ansible_host }}.list"
-     dest: "/root/{{ ansible_host }}.list"
-     mode: 644
+     dest: "{{ PROXY_DIR }}/{{ ansible_host }}.list"
+     mode: "0644"
    tags: send_proxy_list

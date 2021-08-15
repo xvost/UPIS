@@ -24,6 +24,7 @@ arguments = argparse.ArgumentParser()
 start_type = arguments.add_mutually_exclusive_group()
 start_type.add_argument('-i', action='store_false', help='Interactive mode')
 start_type.add_argument('-c', action='store_true', help='Use configfile ./data_ipv6.conf or ./data_ipv4.conf')
+start_type.add_argument('-r', action='store_true', help='Run last configured install/Repeat')
 ip_type = arguments.add_mutually_exclusive_group()
 ip_type.add_argument('-n', choices=['ipv4', 'ipv6'], default='ipv6',
                      action='store', dest="type", help='Type of subnet')
@@ -36,20 +37,27 @@ def config(ip, type):
     start_type.start(ip)
 
 args = arguments.parse_args()
+tagsstring = ''
 
-if args.list:
+if args.r:
+    if args.tags:
+        tagsstring = ','.join(args.tags)
+        tagsstring = f' --tags {tagsstring}'
+    command = f"ansible-playbook ./startup_point.yml -i ./inventory/env{tagsstring}"
+    subprocess.call(command.split(' '))
+
+elif args.list:
     command = "ansible-playbook ./startup_point.yml -i ./inventory/env --list-tags"
     subprocess.call(command.split(' '))
-    sys.exit(0)
 
-tagsstring = ''
-if args.tags:
-    tagsstring = ','.join(args.tags)
-    tagsstring = f' --tags {tagsstring}'
+else:
+    if args.tags:
+        tagsstring = ','.join(args.tags)
+        tagsstring = f' --tags {tagsstring}'
 
-config(args.type, args.c)
-time = datetime.utcnow()
-copyfile('inventory/env', f'envarchive/env_{time}')
+    config(args.type, args.c)
+    time = datetime.utcnow()
+    copyfile('inventory/env', f'envarchive/env_{time}')
 
-command = f"ansible-playbook ./startup_point.yml -i ./inventory/env{tagsstring}"
-subprocess.call(command.split(' '))
+    command = f"ansible-playbook ./startup_point.yml -i ./inventory/env{tagsstring}"
+    subprocess.call(command.split(' '))

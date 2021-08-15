@@ -4,7 +4,7 @@
 
  - name: Install packages
    apt:
-     name: "{{ packages.all }}"
+     name: "{{ packages.apt.all }}"
      update_cache: yes
    tags:
    - packages
@@ -13,6 +13,7 @@
    get_url:
      url: "{{ item }}"
      dest: /root/
+     force: true
    with_items:
      - https://storage.yandexcloud.net/xvostt/linux-headers-4.3.0-040300_4.3.0-040300.201511020949_all.deb
      - https://storage.yandexcloud.net/xvostt/linux-headers-4.3.0-040300-generic_4.3.0-040300.201511020949_amd64.deb
@@ -25,9 +26,9 @@
    apt:
      deb: "{{ item }}"
    with_items:
-     - linux-headers-4.3.0-040300_4.3.0-040300.201511020949_all.deb
-     - linux-headers-4.3.0-040300-generic_4.3.0-040300.201511020949_amd64.deb
-     - linux-image-4.3.0-040300-generic_4.3.0-040300.201511020949_amd64.deb
+     - /root/linux-headers-4.3.0-040300_4.3.0-040300.201511020949_all.deb
+     - /root/linux-headers-4.3.0-040300-generic_4.3.0-040300.201511020949_amd64.deb
+     - /root/linux-image-4.3.0-040300-generic_4.3.0-040300.201511020949_amd64.deb
    register: update
    when: ansible_kernel is version_compare('4','<')
    tags: kernel
@@ -39,6 +40,12 @@
    tags:
    - kernel
 
+ - name: Create {{ PROXY_DIR }}
+   file:
+     path: "{{ PROXY_DIR }}"
+     mode: "0755"
+     state: directory
+
  - name: Get git repo 3proxy
    git:
      repo: https://github.com/z3APA3A/3proxy.git
@@ -49,10 +56,12 @@
    shell: "cd {{ MAKE_DIR }}/3proxy && make -f Makefile.Linux"
    args:
      executable: /bin/bash
+   register: git_builded
    ignore_errors: true
 
  - name: Copy 3proxy binary
-   shell: "cp -f {{ MAKE_DIR }}/3proxy/bin/3proxy {{ PROXY_DIR }}/3proxy/3proxy"
+   shell: "cp -f {{ MAKE_DIR }}/3proxy/bin/3proxy {{ PROXY_DIR }}/3proxy"
+#   when: git_builded is changed
 
  - name: Change bind's listening ips
    replace:

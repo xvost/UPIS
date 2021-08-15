@@ -1,21 +1,25 @@
+---
 PROXY_DIR: /home/3proxy
 MAKE_DIR: /root/3proxy
-apt-packages:
-  all:
-    - mc
-    - bc
-    - bind9
-    - nscd
-    - git
-    - make
-    - gcc
-  ipv4:
-    - python3
-    - python3-pip
-    - python3-dev
-pip-packages:
-  ipv4:
-    - configobj
+packages:
+  apt:
+    all:
+      - mc
+      - bc
+      - bind9
+      - nscd
+      - git
+      - make
+      - gcc
+    ipv4:
+      - python3
+      - python3-pip
+      - python3-dev
+      - python
+      - python-pip
+  pip:
+    ipv4:
+      - configobj
 sysctl:
   all:
     vm.max_map_count: '95120'
@@ -29,3 +33,5 @@ sysctl:
   ipv4:
     net.ipv4.tcp_tw_reuse: '1'
     net.ipv4.tcp_fin_timeout: '15'
+3proxy:
+  update: true

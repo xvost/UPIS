@@ -145,10 +145,13 @@ def ipv4():
     proxy_type = address_type_answers.get('proxy_type', 'one')
     if proxy_type == 'one':
         proxy_data = prompt(proxy_data)
+        input_output = 'self'
     elif proxy_type == 'add':
+        input_output_type = prompt(input_output_type)
         proxy_address = prompt(proxy_address)
         proxy_data = prompt(proxy_data)
         proxy_addresses = proxy_address.get('proxy_addr').split(' ')
+        input_output = input_output_type.get('input_type')
     else:
         proxy_network = prompt(proxy_network)
         input_output_type = prompt(input_output_type)

@@ -1,20 +1,18 @@
- - name: Update cache
-   apt:
-     update_cache: yes
-
  - name: Install packages
    apt:
-     name: "{{ items }}"
+     name: "{{ packages.apt.ipv4 }}"
      update_cache: yes
-   with_items: "{{ apt-packages.ipv4 }}"
    tags:
-   - packages
+     - apt
+     - packages
 
  - name: Install pip3 packages
    pip:
-     name: "{{ item }}"
+     name: "{{ packages.pip.ipv4 }}"
      executable: pip3
-   with_items: "{{ pip-packages.ipv4 }}"
+   tags:
+     - pip
+     - packages
 
  - name: Set sysctl values
    sysctl:
@@ -26,8 +24,8 @@
      - sysctl
 
  - name: Copy script
-   copy:
-     src: scripts/setup_ipv4.py
+   template:
+     src: setup_ipv4.py
      dest: "{{ PROXY_DIR }}/setup_ipv4.py"
      mode: 0744
 
@@ -38,11 +36,11 @@
      mode: 0644
 
  - name: Create 3proxy config
-   shell: "{{ PROXY_DIR }}/setup_ipv4.py ./config.ini"
+   command: "{{ PROXY_DIR }}/setup_ipv4.py {{ PROXY_DIR }}/config.ini"
 
  - name: Send systemd .service file
    template:
-     src: 3proxy.service
+     src: 3proxy.service.j2
      dest: /etc/systemd/system/3proxy.service
      mode: 0744
    tags: systemd

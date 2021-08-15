@@ -8,7 +8,7 @@
      - sysctl
 
  - file:
-     path: '/root/{{ item }}'
+     path: '{{ MAKE_DIR }}/{{ item }}'
      state: directory
      mode: 0755
    with_items:
@@ -24,13 +24,13 @@
  - name: Copy binary ndppd
    copy:
      src: bin/ndppd
-     dest: /root/ndppd/ndppd
+     dest: '{{ MAKE_DIR }}/ndppd/ndppd'
      mode: 0744
 
  - name: Send 3proxy.sh
    template:
       src: 3proxy.j2
-      dest: /home/3proxy/3proxy.sh
+      dest: "{{ PROXY_DIR }}/3proxy.sh"
       mode: 0755
 
  - name: Start install proxy 36/32
@@ -42,19 +42,19 @@
    when: net_type == 64 or net_type == 48
 
  - name: Create ip.list
-   shell: /home/3proxy/random.sh > /home/3proxy/ip.list
+   shell: "{{ PROXY_DIR }}/random.sh > {{ PROXY_DIR }}/ip.list"
    args:
      executable: /bin/bash
 
  - name: Create 3proxy.cfg
-   shell: /home/3proxy/3proxy.sh > /home/3proxy/3proxy.cfg
+   shell: "{{ PROXY_DIR }}/3proxy.sh > {{ PROXY_DIR }}/3proxy.cfg"
    args:
      executable: /bin/bash
 
  - name: Copy rotate.sh
    copy:
      src: rotate.sh
-     dest: /home/3proxy/rotate.sh
+     dest: "{{ PROXY_DIR }}/rotate.sh"
      mode: 0744
 
  - name: Add rotate cron
@@ -62,14 +62,14 @@
      name: "rotate proxies"
      minute: '{{ cron_minute }}'
      hour: '{{ cron_hour }}'
-     job: "/home/3proxy/rotate.sh"
+     job: "{{ PROXY_DIR }}/rotate.sh"
    when: rotate | bool
    tags:
    - cron
 
  - name: Change owner to nobody
    file:
-     path: /home/3proxy
+     path: "{{ PROXY_DIR }}"
      owner: nobody
      group: nogroup
      recurse: yes

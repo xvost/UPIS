@@ -3,7 +3,7 @@ inventory/env*
 !inventory/env*.example
 *.conf
 .idea
-proxylists/*
-envarchive/*
+proxylists/*.list
+envarchive/env*
 venv/
 __*
