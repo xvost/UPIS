@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 # Required docker
 # if you need non-root work configure docker to non-root work
 
