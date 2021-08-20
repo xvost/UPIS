@@ -9,7 +9,7 @@ Python 3.7.0+
 Install required packages
 
 ```
-apt update && apt -y install sshpass git python3-virtualenv
+apt update && apt -y install sshpass git python-virtualenv
 ```
 
 Clone repo
