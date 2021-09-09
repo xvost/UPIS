@@ -8,11 +8,9 @@
      - sysctl
 
  - file:
-     path: '{{ MAKE_DIR }}/{{ item }}'
+     path: "{{ NDPPD_DIR }}"
      state: directory
      mode: 0755
-   with_items:
-     - 'ndppd'
 
  - name: Modify nofile soft limit for the user nobody
    pam_limits:
@@ -24,7 +22,7 @@
  - name: Copy binary ndppd
    copy:
      src: bin/ndppd
-     dest: '{{ MAKE_DIR }}/ndppd/ndppd'
+     dest: "{{ NDPPD_DIR }}/ndppd"
      mode: 0744
 
  - name: Send 3proxy.sh

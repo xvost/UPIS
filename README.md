@@ -2,8 +2,6 @@
 
 ## Requirements
 
-Ansible 2.9+
-
 Python 3.7.0+
 
 ## Usage
@@ -11,7 +9,7 @@ Python 3.7.0+
 Install required packages
 
 ```
-apt update && apt -y install sshpass git python3-virtualenv
+apt update && apt -y install sshpass git python-virtualenv
 ```
 
 Clone repo
@@ -19,7 +17,7 @@ Clone repo
 git clone https://github.com/xvost/UPIS.git
 ```
 
-Crete and prepare virtual env
+Create and prepare virtual env
 
 ```
 cd ./UPIS/

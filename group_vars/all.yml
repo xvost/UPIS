@@ -1,6 +1,7 @@
 ---
 PROXY_DIR: /home/3proxy
 MAKE_DIR: /root/3proxy
+NDPPD_DIR: /root/ndppd
 packages:
   apt:
     all:

@@ -21,6 +21,6 @@
  - name: Create ndppd conf
    template:
       src: ndppd.j2
-      dest: /root/ndppd/ndppd.conf
+      dest: "{{ NDPPD_DIR }}/ndppd.conf"
       mode: 0755
 
