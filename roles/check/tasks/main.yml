@@ -1,6 +1,6 @@
  - name: Check proxy
    uri:
-     url: http://ifconfig.co
+     url: https://ifconfig.co
      timeout: 5
    register: msg
    environment:
