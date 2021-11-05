@@ -18,19 +18,22 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
-    
 
 arguments = argparse.ArgumentParser()
 start_type = arguments.add_mutually_exclusive_group()
-start_type.add_argument('-i', action='store_false', help='Interactive mode')
-start_type.add_argument('-c', action='store_true', help='Use configfile ./data_ipv6.conf or ./data_ipv4.conf')
-start_type.add_argument('-r', action='store_true', help='Run last configured install/Repeat')
+start_type.add_argument('-i', action='store_false',
+                        help='Interactive mode')
+start_type.add_argument('-c', action='store_true',
+                        help='Use configfile ./data_ipv6.conf or ./data_ipv4.conf')
+start_type.add_argument('-r', action='store_true',
+                        help='Run last configured install/Repeat')
 ip_type = arguments.add_mutually_exclusive_group()
 ip_type.add_argument('-n', choices=['ipv4', 'ipv6'], default='ipv6',
                      action='store', dest="type", help='Type of subnet')
-arguments.add_argument('-l', action='store_true', dest="list", help='List tags', required=False)
-arguments.add_argument('-t', nargs='+', dest="tags", help='Use tags list: -t=sysctl,dns,config and etc.', required=False)
-
+arguments.add_argument('-l', action='store_true', dest="list",
+                       help='List tags', required=False)
+arguments.add_argument('-t', nargs='+', dest="tags",
+                       help='Use tags list: -t=sysctl,dns,config and etc.', required=False)
 
 def config(ip, type):
     start_type = [cli, configfile][type]
@@ -56,7 +59,7 @@ else:
         tagsstring = f' --tags {tagsstring}'
 
     config(args.type, args.c)
-    time = datetime.utcnow()
+    time = datetime.now().strftime("%d-%m-%Y-%H%M%S")
     copyfile('inventory/env', f'envarchive/env_{time}')
 
     command = f"ansible-playbook ./startup_point.yml -i ./inventory/env{tagsstring}"

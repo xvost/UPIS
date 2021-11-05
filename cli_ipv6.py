@@ -63,6 +63,8 @@ def ipv6():
     - ротация
     - настройка systemd сервиса
     - ndppd для работы сетей /64 и /48 с параметром non local bind
+    - Добавление ip адресов на интерфейс (чем больше адресов тем дольше они добавляются,
+     рекомендуется не более 2000-3000)
     '''
 
     agree = [
@@ -79,6 +81,11 @@ def ipv6():
             'name': 'subnet_type',
             'message': 'Укажи сеть в которой будут работать прокси',
             'choices': ['64', '48', '36', '32', '29']
+        },
+        {
+            'type': 'confirm',
+            'name': 'npd',
+            'message': 'Добавить адреса на сетевой интерфейс, для vpsville - yes, для других - no'
         },
         {
             'type': 'input',
@@ -163,6 +170,7 @@ def ipv6():
     server_ip = base_answers.get('server_ip').split(' ')
     server_passwd = base_answers.get('server_passwd').split(' ')
     gateway_subnet = base_answers.get('gateway_subnet').split(' ')
+    npd = base_answers.get('npd')
 
     if subnet_type not in ['64', '48']:
         subnet = prompt(proxy_subnet)
@@ -194,7 +202,7 @@ def ipv6():
 
     env = open('./inventory/env', 'w')
     env.write('proxyv6:\n  hosts:\n')
-
+# TODO use yml
     for enum, line in enumerate(server_ip):
         ip = server_ip[enum]
         ipv64 = gateway_subnet[enum]
@@ -215,6 +223,7 @@ def ipv6():
     env.write(str(('\n'
                    '  vars:\n'
                    '    net_type: {net_type}\n'
+                   '    npd: {npd}\n'
                    '    count: {count}\n'
                    '    start_port: {startport}\n'
                    '    proxy_login: {login}\n'
@@ -230,7 +239,8 @@ def ipv6():
                                                          rotate=rotation,
                                                          rotate_type='simple',
                                                          hour=cron.split(' ')[1],
-                                                         minute=cron.split(' ')[0])))
+                                                         minute=cron.split(' ')[0],
+                                                         npd=npd)))
 
     env.close()
 

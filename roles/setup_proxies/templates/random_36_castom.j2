@@ -45,5 +45,5 @@ for net in ${networks[*]}
             let "count += 1"
     done
 done
-echo $a > /root/ip2.list
+echo $a > {{ PROXY_DIR }}/ip2.list
 {% endraw %}

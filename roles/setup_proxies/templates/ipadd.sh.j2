@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for ip in `cat {{ PROXY_DIR }}/ip.list`;
+do
+/sbin/ip -6 addr add {ip} dev eth0
+done

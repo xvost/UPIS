@@ -23,4 +23,3 @@
       src: ndppd.j2
       dest: "{{ NDPPD_DIR }}/ndppd.conf"
       mode: 0755
-

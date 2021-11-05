@@ -65,6 +65,7 @@ def ipv6():
     password = proxy['password']
     rotate = proxy['rotation']
     rotate_type = proxy['randomtype']
+    npd = proxy['npd']
     hour = hour
     minute = minute
     env.write(str(f'\n'
@@ -77,7 +78,8 @@ def ipv6():
                   f'    rotate_type: {rotate_type}\n'
                   f'    rotate: {rotate}\n'
                   f'    cron_hour: "{hour}"\n'
-                  f'    cron_minute: "{minute}"'))
+                  f'    cron_minute: "{minute}"\n'
+                  f'    npd: "{npd}"'))
 
     env.close()
 

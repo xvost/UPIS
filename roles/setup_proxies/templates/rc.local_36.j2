@@ -5,5 +5,7 @@ ulimit -u 600000
 /sbin/ip -6 addr add {{ nipv664 }}::2/64 dev eth0
 /sbin/ip -6 route add default via {{ nipv664 }}::1
 /sbin/ip -6 route add local {{ nipv6 }}000::/{{ net_type }} dev lo
-
+{% if not npd %}
+{{ PROXY_DIR }}/ipadd.sh
+{% endif %}
 exit 0

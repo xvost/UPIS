@@ -10,6 +10,7 @@ rotation=no
 cronstring="*","*/2"
 #simple or custom only for /36
 randomtype=simple
+ndp=no
 
 [Servers]
 #example for /36

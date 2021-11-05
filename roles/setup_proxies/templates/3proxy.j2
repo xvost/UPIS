@@ -10,7 +10,7 @@ echo nscache 65536
 echo timeouts 1 5 30 60 180 1800 15 60
 echo setgid 65534
 echo setuid 65534
-echo pidfile /home/3proxy/3proxy.pid
+echo pidfile {{ PROXY_DIR }}/3proxy.pid
 echo flush
 echo auth strong
 {% endraw %}
@@ -18,7 +18,7 @@ echo users {{ proxy_login }}:CL:{{ proxy_password }}
 echo allow {{ proxy_login }}
 
 port={{ start_port }}
-for i in `cat /home/3proxy/ip.list`; do
+for i in `cat {{ PROXY_DIR }}/ip.list`; do
     echo "proxy -6 -s0 -n -a -p$port -i{{ ipv4 }} -e$i"
     ((port+=1))
 done
