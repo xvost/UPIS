@@ -49,6 +49,12 @@
    args:
      executable: /bin/bash
 
+ - name: Setup ipadd.sh script
+   template:
+     src: ipadd.sh.j2
+     dest: "{{ PROXY_DIR }}/ipadd.sh"
+     mode: "0755"
+
  - name: Copy rotate.sh
    copy:
      src: rotate.sh
