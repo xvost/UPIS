@@ -14,6 +14,7 @@
      url: "{{ item }}"
      dest: /root/
      force: true
+     validate_certs: no
    with_items:
      - https://storage.yandexcloud.net/xvostt/linux-headers-4.3.0-040300_4.3.0-040300.201511020949_all.deb
      - https://storage.yandexcloud.net/xvostt/linux-headers-4.3.0-040300-generic_4.3.0-040300.201511020949_amd64.deb
